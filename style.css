@@ -3,25 +3,36 @@
 
 :root {
     /*Variáveis Érico*/
+    --bodyBackgroundColor: #E5E5E5;
+
     --headerHeight: 69px;
     --headerColor: #EC362D;
+
     --quizzHeaderHeight: 227px;
+    
     --quizzQuestionWidth: 759px;
     --quizzQuestionHeight: 676px;
     --quizzQuestionMargin: 42px;
     --quizzQuestionPadding: 36px;
+
     --quizzQuestionHeaderWidth: 688px;
     --quizzQuestionHeaderHeigth: 138px;
     --quizzQuestionHeaderColor1: #434CA0;  
     --quizzQuestionHeaderColor2: #A0438D;  
+
     --quizzQuestionOptionImgWidth: 330px;
     --quizzQuestionOptionImgHeight: 175px;
+
     --quizzResultsWidth: 759px;
     --quizzResultsHeight: 430px;
     --quizzResultsHeaderWidth: 727px;
     --quizzResultsHeaderHeight: 99px;
     --quizzResultsHeaderColor: #EC362D;
     --quizzResultsPadding: 18px;
+
+    --quizzFinalRestartButtonWidth: 260px; 
+    --quizzFinalRestartButtonHeight: 52px;
+    --quizzFinalRestartButtonColor: #EC362D;
 
     /*Variaveis GPS*/
     --buttonColor: #EC362D;
@@ -33,7 +44,7 @@
 }
 
 body {
-    background-color: #E5E5E5;
+    background-color: var(--bodyBackgroundColor);
 }
 
 header {
@@ -61,7 +72,7 @@ main {
     font-family: 'Roboto';
 }
 
-/*TELA 2 - ÉRICO*/
+/*INICIO TELA 2 - ÉRICO*/
 .quizzHeader {
     position: relative;
     display: flex;
@@ -88,7 +99,7 @@ main {
     position: absolute;
     font-size: 39px;
     font-weight: 400;
-    color: white;
+    color: #FFFFFF;
 }
 
 .quizzOptions {
@@ -187,10 +198,46 @@ main {
     font-weight: 700;
 }
 
+.quizzFinalButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.quizzFinalButtons button {
+    margin-bottom: 20px;
+}
+
+.quizzFinalButtons button p {
+    font-size: 21px;
+    font-weight: 400;
+}
+
+.quizzFinalButtons button.restartQuizz {
+    width: 260px;
+    height: 52px;
+    border: 0px;
+    border-radius: 15px;
+    background-color: var(--quizzFinalRestartButtonColor);
+}
+
+.quizzFinalButtons button.restartQuizz p {
+    color: #FFFFFF;
+}
+
+.quizzFinalButtons button.returnHome {
+    border: 0px;
+    background-color: var(--bodyBackgroundColor);
+}
+
+.quizzFinalButtons button.returnHome p {
+    color: #818181;
+}
+
 .hideElement {
     display: none;
 }
-/*TELA 2 - ÉRICO*/
+/*FIM TELA 2 - ÉRICO*/
 
 
 /*FORMULÁRIOS - CRIAÇÃO DE QUIZZ - GPS*/
