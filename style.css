@@ -16,6 +16,12 @@
     --quizzQuestionHeaderColor2: #A0438D;  
     --quizzQuestionOptionImgWidth: 330px;
     --quizzQuestionOptionImgHeight: 175px;
+    --quizzResultsWidth: 759px;
+    --quizzResultsHeight: 430px;
+    --quizzResultsHeaderWidth: 727px;
+    --quizzResultsHeaderHeight: 99px;
+    --quizzResultsHeaderColor: #EC362D;
+    --quizzResultsPadding: 18px;
 }
 
 * {
@@ -76,7 +82,6 @@ main {
 
 .quizzHeader h1 {
     position: absolute;
-    font-family: Roboto;
     font-size: 39px;
     font-weight: 400;
     color: white;
@@ -136,18 +141,46 @@ main {
 }
 
 .quizzQuestionOption p {
-    font-family: Roboto;
     font-size: 20px;
     font-weight: 700;
     margin-top: 10px;
 }
 
-.quizzResultsHeader {
-    font-family: Roboto;
-    font-weight: 700;
-    font-size: 23px;
-    text-align: center;
+.quizzResults {
+    width: var(--quizzResultsWidth);
+    height: var(--quizzResultsHeight);
+    padding: var(--quizzResultsPadding);
+    background-color: #FFFFFF;
+    margin: 0 auto;
+    margin-bottom: 30px; /*Remove after*/
+}
 
+.quizzResultsHeader {
+    width: var(--quizzResultsHeaderWidth);
+    height: var(--quizzResultsHeaderHeight);
+    background-color: var(--quizzResultsHeaderColor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.quizzResultsHeader p {
+    font-size: 23px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.quizzResultsMain {
+    display: flex;
+    justify-content: space-between;
+}
+
+.quizzResultsMain p {
+    width: 328px;
+    color: #484848;
+    font-size: 19px;
+    font-weight: 700;
 }
 
 .hideElement {
