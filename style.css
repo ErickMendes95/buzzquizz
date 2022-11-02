@@ -1,8 +1,8 @@
 /*Import da fonte Roboto*/
 @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap%27%27');
 
-/*----------------------CSS ÉRICO----------------------*/
 :root {
+    /*Variáveis Érico*/
     --headerHeight: 69px;
     --headerColor: #EC362D;
     --quizzHeaderHeight: 227px;
@@ -22,6 +22,10 @@
     --quizzResultsHeaderHeight: 99px;
     --quizzResultsHeaderColor: #EC362D;
     --quizzResultsPadding: 18px;
+
+    /*Variaveis GPS*/
+    --buttonColor: #EC362D;
+    --widthForm:33%;
 }
 
 * {
@@ -57,7 +61,7 @@ main {
     font-family: 'Roboto';
 }
 
-/*Quizz Header da Tela 2*/
+/*TELA 2 - ÉRICO*/
 .quizzHeader {
     position: relative;
     display: flex;
@@ -186,4 +190,99 @@ main {
 .hideElement {
     display: none;
 }
-/*----------------------CSS ÉRICO----------------------*/
+/*TELA 2 - ÉRICO*/
+
+
+/*FORMULÁRIOS - CRIAÇÃO DE QUIZZ - GPS*/
+
+.hidden{
+    display: none !important;
+    z-index: -5;
+}
+.sectionForms{
+    background-color: #E5E5E5;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    position: absolute;
+    top: 15%;
+    padding-bottom: 8%;
+}
+.forms{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+form{
+    width: var(--widthForm);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+    border: 1px solid rgb(226, 226, 226);
+}
+.forms input{
+    height: 46px;
+    margin-bottom: 2%;
+    border: 1px solid rgb(226, 226, 226);
+    border-radius: 7px;
+    padding-left: 2%;
+}
+.buttonForm{
+    width: 20%;
+    height: 54px;
+    margin-top: 5%;
+    color: white;
+    background-color: var(--buttonColor);
+    border: none;
+    border-radius: 20px;
+    font-size: 21px;
+    font-weight: 400;
+}
+.titleForm,.subtitleForm{
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2%;
+}
+.finalQuizz{
+    width: 25%;
+    height: 250px;
+    background-color: green;
+}
+.backHome{
+    margin-top: 2%;
+    font-size: 21px;
+    font-weight: 400;
+    color:gray;
+}
+.question2,.question3,.level2,.level3{
+    width: var(--widthForm);
+    height: 84px;
+    margin-top: 3%;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+}
+.sectionForms ion-icon{
+    font-size: 36px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+::placeholder{
+    font-style: italic;
+}

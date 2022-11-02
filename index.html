@@ -115,9 +115,84 @@
             <!--End of Screen 2 *******-->
         </div>
         
+        <!--FORMULÁRIOS - CADASTRO DE QUIZZ-->
+        <section class="hidden sectionForms quizzInformation ">
+            <h1 class="titleForm">Comece pelo começo</h1>
+            <div class="forms informations">
+            <form action="forms formInformation">
+                <input type="text" placeholder="Título do seu quizz">
+                <input type="url" placeholder="URL da imagem do seu quizz">
+                <input type="number"placeholder="Quantidade de perguntas do quizz">
+                <input type="number" placeholder="Quantidade de níveis do quizz">
+            </form>
+            </div>
+            <button class="buttonForm">Prosseguir pra criar perguntas</button>
+        </section>
+        <section class="hidden sectionForms quizzQuestions">
+            <h1 class="titleForm">Crie suas perguntas</h1>
+            <div class="forms question1">
+                <form action="formInformation">
+                    <h1 class="subtitleForm">Pergunta 1</h1>
+                    <input type="text" placeholder="Texto da pergunta">
+                    <input type="text" placeholder="Cor de fundo da pergunta">
+                    <h1 class="subtitleForm">Resposta Correta</h1>
+                    <input type="text" placeholder="Resposta correta">
+                    <input type="url" placeholder="URL da imagem">
+                    <h1 class="subtitleForm">Respostas incorretas</h1>
+                    <input type="text" placeholder="Resposta incorreta 1">
+                    <input type="url" placeholder="URL da imagem 1">
+                    <br>                
+                    <input type="text" placeholder="Resposta incorreta 2">
+                    <input type="url" placeholder="URL da imagem 2">
+                    <br>                
+                    <input type="text" placeholder="Resposta incorreta 3">
+                    <input type="url" placeholder="URL da imagem 3">
+                </form>
+            </div>
+            <div class="question2">
+                <h1 class="subtitleForm">Pergunta 2</h1>
+                <ion-icon name="create-outline"></ion-icon>
+            </div>
+            <div class="question3">
+                <h1 class="subtitleForm">Pergunta 3</h1>
+                <ion-icon name="create-outline"></ion-icon>
+            </div>
+            <button class="buttonForm">Prosseguir pra criar níveis</button>
+        </section>
+        <section class="hidden sectionForms quizzLevels">
+            <div class="forms level1">
+                <h1 class="titleForm">Agora, decida os níveis</h1>
+                <form action="formInformation">
+                    <h1 class="subtitleForm">Nível 1</h1>
+                    <input type="text" placeholder="Título do nível">
+                    <input type="number" placeholder="% de acerto mínima">
+                    <input type="url" placeholder="URL da imagem do nível">
+                    <input type="text" placeholder="Descrição do nível">
+                </form>
+            </div>
+            <div class="level2">
+                <h1 class="subtitleForm">Nível 2</h1>
+                <ion-icon name="create-outline"></ion-icon>
+            </div>
+            <div class="level3">
+                <h1 class="subtitleForm">Nível 3</h1>
+                <ion-icon name="create-outline"></ion-icon>
+            </div>
+            <button class="buttonForm">Finalizar Quizz</button>
+        </section>
+        <section class="hidden sectionForms quizzSuccess">
+            <h1 class="titleForm">Seu quizz está pronto!</h1>
+            <div class="finalQuizz">
+
+            </div>
+            <button class="buttonForm">Finalizar Quizz</button>
+            <h2 class="backHome">Voltar pra home</h2>
+        </section>
     </main>
     <footer>
 
-    </footer>    
+    </footer>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>    
 </body>
 </html>
