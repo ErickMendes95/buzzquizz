@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BuzzQuizz</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stylesheets/reset.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
 </head>
 <body>
     <header>
@@ -15,54 +15,16 @@
     <main>
 
         <!--Begin of Screen 2 *******-->
+
         <div class="screen2 hideElement">
+
             <section class="quizzHeader">
                 <img src="images/hogwarts-castle-.jpg">
                 <div class="quizzHeaderGradient"></div>
                 <h1>O quão Potterhead é você?</h1>
             </section>
-
+                
             <section class="quizzQuestions">        
-                    <!--Quizz static question example-->
-                    <section class="quizzQuestion">
-                        <div class="quizzQuestionHeader">
-                            <p>
-                                Em qual animal Olho-Tonto Moody transfigurou Malfoy?
-                            </p>
-                        </div>
-                        <div class="quizzOptions">
-                            <div class="quizzQuestionOption">
-                                <figure>
-                                    <img src="images/furao.png">
-                                    <div class="quizzQuestionOptionBackground hideElement"></div>
-                                </figure>
-                                <p>Mustela putorius (o Furão)</p>
-                            </div>
-                            <div class="quizzQuestionOption">
-                                <figure>
-                                    <img src="images/gato.png">
-                                    <div class="quizzQuestionOptionBackground hideElement"></div>
-                                </figure>
-                                <p>Gatineo</p>
-                            </div>
-                            <div class="quizzQuestionOption">
-                                <figure>
-                                    <img src="images/rato.png">
-                                    <div class="quizzQuestionOptionBackground hideElement"></div>
-                                </figure>
-                                <p>Ratata</p>
-                            </div>
-                            <div class="quizzQuestionOption">
-                                <figure>
-                                    <img src="images/sapo.png">
-                                    <div class="quizzQuestionOptionBackground hideElement"></div>
-                                </figure>
-                                <p>Sapo Gordo</p>
-                            </div>
-                        </div>
-                    </section>
-            
-                    <!--Quizz static question example-->
                     <section class="quizzQuestion">
                         <div class="quizzQuestionHeader">
                             <p>
@@ -101,8 +63,7 @@
                         </div>
                     </section>
             </section>
-
-            <!--Final Results Quizz Example-->
+            
             <section class="quizzResults">
                 <div class="quizzResultsHeader">
                     <p>88% de acerto: Você é praticamente um aluno de Hogwarts!</p>
@@ -112,7 +73,7 @@
                     <p> Parabéns Potterhead! Bem-vindx a Hogwarts, aproveite o loop infinito de comida e clique no botão abaixo para usar o vira-tempo e reiniciar este teste. </p>
                 </div>
             </section>
-
+            
             <section class="quizzFinalButtons">
                 <button class="restartQuizz">
                     <p>Reiniciar Quizz</p>
@@ -123,6 +84,7 @@
             </section>
         </div>
         <!--End of Screen 2 *******-->
+        
         
         <!--FORMULÁRIOS - CADASTRO DE QUIZZ-->
         <section class="hidden sectionForms quizzInformation ">
@@ -201,7 +163,11 @@
     <footer>
 
     </footer>
+
+    <!--axios library-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>    
+    <script src="script.js"></script>
 </body>
 </html>
