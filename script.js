@@ -74,6 +74,8 @@ function changeQuizzQuestions(quizz) {
             </section>        
                 `;
     }
+
+    addSelectionLogicToQuestion();
 }
 
 function constructQuizzAnswers(quizzAnswers) {
@@ -90,6 +92,23 @@ function constructQuizzAnswers(quizzAnswers) {
                                     </div>`
     }
     return quizzQuestionOptionsHTML;
+}
+
+function addSelectionLogicToQuestion() {
+
+    document.querySelectorAll('.quizzQuestionOption').forEach((question) => {
+        question.addEventListener('click', () => {
+            const listOfQuestions = Array.from(question.parentNode.querySelectorAll('.quizzQuestionOption'));
+            
+            for(let questionIndex in listOfQuestions) {
+                const transpBack = listOfQuestions[questionIndex].childNodes[1].querySelector('.quizzQuestionOptionBackground');
+                transpBack.classList.add('hideElement');
+                if(listOfQuestions[questionIndex] !== question) {
+                    transpBack.classList.toggle('hideElement');
+                }
+            }
+        })
+    });
 }
 
 function changeQuizzResults(quizz, levelSelected) {
@@ -114,7 +133,6 @@ function changeQuizzResults(quizz, levelSelected) {
     });
 
     quizzResults.innerHTML = quizzResultsHTML[levelSelected];
-    toggleLoader();
-    toggleScreen2();
+    toggleLoader(); toggleScreen2();
 }
 /* FIM JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
