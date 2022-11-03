@@ -23,7 +23,7 @@
                 <div>
                     <button class="createQuizz">Criar Quizz</button>
                 </div>
-            </div>
+        </div>
         </section>
         <section class="allQuizzes">
             <div class="bigText">Todos os Quizzes</div>
@@ -90,45 +90,16 @@
             <h1 class="titleForm">Comece pelo começo</h1>
             <div class="forms informations">
             <form action="forms formInformation">
-                <input type="text" placeholder="Título do seu quizz">
-                <input type="url" placeholder="URL da imagem do seu quizz">
-                <input type="number"placeholder="Quantidade de perguntas do quizz">
-                <input type="number" placeholder="Quantidade de níveis do quizz">
+                <input type="text" class="quizzTitle" placeholder="Título do seu quizz">
+                <input type="url" class="quizzImage" placeholder="URL da imagem do seu quizz">
+                <input type="number" class="quizzNumberQuestions" placeholder="Quantidade de perguntas do quizz">
+                <input type="number" class="quizzNumberLevels" placeholder="Quantidade de níveis do quizz">
             </form>
             </div>
-            <button class="buttonForm">Prosseguir pra criar perguntas</button>
+            <button class="buttonForm" onclick="saveInformations()">Prosseguir pra criar perguntas</button>
         </section>
-        <section class="hidden sectionForms quizzQuestions">
+        <section class="hidden sectionForms quizzQuestionsForm">
             <h1 class="titleForm">Crie suas perguntas</h1>
-            <div class="forms question1">
-                <form action="formInformation">
-                    <h1 class="subtitleForm">Pergunta 1</h1>
-                    <input type="text" placeholder="Texto da pergunta">
-                    <input type="text" placeholder="Cor de fundo da pergunta">
-                    <h1 class="subtitleForm">Resposta Correta</h1>
-                    <input type="text" placeholder="Resposta correta">
-                    <input type="url" placeholder="URL da imagem">
-                    <h1 class="subtitleForm">Respostas incorretas</h1>
-                    <input type="text" placeholder="Resposta incorreta 1">
-                    <input type="url" placeholder="URL da imagem 1">
-                    <br>                
-                    <input type="text" placeholder="Resposta incorreta 2">
-                    <input type="url" placeholder="URL da imagem 2">
-                    <br>                
-                    <input type="text" placeholder="Resposta incorreta 3">
-                    <input type="url" placeholder="URL da imagem 3">
-                </form>
-            </div>
-            <div class="question2">
-                <h1 class="subtitleForm">Pergunta 2</h1>
-                <ion-icon name="create-outline"></ion-icon>
-            </div>
-            <div class="question3">
-                <h1 class="subtitleForm">Pergunta 3</h1>
-                <ion-icon name="create-outline"></ion-icon>
-            </div>
-            <button class="buttonForm">Prosseguir pra criar níveis</button>
-        </section>
         <section class="hidden sectionForms quizzLevels">
             <div class="forms level1">
                 <h1 class="titleForm">Agora, decida os níveis</h1>
@@ -148,15 +119,15 @@
                 <h1 class="subtitleForm">Nível 3</h1>
                 <ion-icon name="create-outline"></ion-icon>
             </div>
-            <button class="buttonForm">Finalizar Quizz</button>
+            <button class="buttonForm" onclick="saveLevels()">Finalizar Quizz</button>
         </section>
         <section class="hidden sectionForms quizzSuccess">
             <h1 class="titleForm">Seu quizz está pronto!</h1>
             <div class="finalQuizz">
 
             </div>
-            <button class="buttonForm buttonFinal">Acessar Quizz</button>
-            <h2 class="backHome">Voltar pra home</h2>
+            <button class="buttonForm buttonFinal" onclick="accessQuizz()">Acessar Quizz</button>
+            <h2 class="backHome" onclick="home()">Voltar pra home</h2>
         </section>
     </main>
     <footer>
