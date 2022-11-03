@@ -285,6 +285,10 @@ main {
         height: var(--quizzQuestionOptionImgHeightMobile);
     }
 
+    .quizzQuestionOption p {
+        font-size: 13px;
+    }
+
     .quizzQuestion{
         width: var(--quizzQuestionWidthMobile);  
         padding: var(--quizzQuestionPaddingMobile);
@@ -314,7 +318,8 @@ main {
     }
 
     .quizzResultsMain p {
-        margin-top: 10px;
+        margin-top: 15px;
+        font-size: 17px;
     }
     
 }

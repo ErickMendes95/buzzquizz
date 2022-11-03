@@ -1,7 +1,3 @@
-/* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
-
-getSelectedQuizz(15102); //used as an example
-
 /* Função utilizada para pegar todos os quizzes da API */
 function getQuizzes() {
     axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes')
@@ -25,26 +21,33 @@ function getSelectedQuizz(quizzId) {
         })
 }   
 
+/* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
+
+// getSelectedQuizz(15102); //used as an example
+
 /* Função utilizada para montar o quizz específico pego da API */
 function assembleSelectedQuizzPage(quizz) {
-
-    const quizzHeader = document.querySelector('.quizzHeader');
-    const quizzQuestions = document.querySelector('.quizzQuestions')
     
-    const levelSelected = 0; // example
+    const levelSelected = 0; //used as an example
 
-    let quizzQuestionOptionsHTML = '';
+    changeQuizzHeader(quizz);    
+    changeQuizzAnswers(quizz, levelSelected);
+    changeQuizzResults(quizz, levelSelected);      
+}
 
-    for(let i = 0; i < quizz.questions[levelSelected].answers.length; i++) {
-        quizzQuestionOptionsHTML += `<div class="quizzQuestionOption">
-                                            <figure>
-                                                <img src="${quizz.questions[levelSelected].answers[i].image}">
-                                                <div class="quizzQuestionOptionBackground hideElement"></div>
-                                            </figure>
-                                            <p>${quizz.questions[levelSelected].answers[i].text}</p>
-                                    </div>`
-    }
+function changeQuizzHeader(quizz) {
+    const quizzHeader = document.querySelector('.quizzHeader');
 
+    // changes the quizz header image and title 
+    quizzHeader.querySelector('img').src = quizz.image;
+    quizzHeader.querySelector('h1').innerHTML = quizz.title;
+}
+
+function changeQuizzAnswers(quizz, levelSelected) {
+    let quizzAnswers = quizz.questions[levelSelected].answers;
+
+    const quizzQuestions = document.querySelector('.quizzQuestions');
+    
     quizzQuestions.innerHTML += `
         <section class="quizzQuestion">
             <div class="quizzQuestionHeader">
@@ -53,20 +56,32 @@ function assembleSelectedQuizzPage(quizz) {
                 </p>
             </div>
             <div class="quizzOptions">
-                ${quizzQuestionOptionsHTML}
+                ${constructQuizzAnswers(quizzAnswers)}
             </div>
         </section>        
-    `;
+            `;
+}
 
-    const quizzHeaderImg = quizzHeader.querySelector('img');
-    const quizzHeaderTitle = quizzHeader.querySelector('h1');
+function constructQuizzAnswers(quizzAnswers) {
 
-    quizzHeaderImg.src = quizz.image;
-    quizzHeaderTitle.innerHTML = quizz.title;
+    let quizzQuestionOptionsHTML = '';
 
+    for(let i = 0; i < quizzAnswers.length; i++) {
+        quizzQuestionOptionsHTML += `<div class="quizzQuestionOption">
+                                            <figure>
+                                                <img src="${quizzAnswers[i].image}">
+                                                <div class="quizzQuestionOptionBackground hideElement"></div>
+                                            </figure>
+                                            <p>${quizzAnswers[i].text}</p>
+                                    </div>`
+    }
+    return quizzQuestionOptionsHTML;
+}
+
+function changeQuizzResults(quizz, levelSelected) {
+    
     const quizzResults = document.querySelector('.quizzResults');
-
-    const quizzResultsHTML = [];
+    const quizzResultsHTML = []; 
     const levelsMinValue = [];
 
     quizz.levels.forEach((level, index) => {
