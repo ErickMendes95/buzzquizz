@@ -451,14 +451,7 @@ input[type="number"] {
 
 @media (max-width: 1100px) {
 
-    form{
-        width: var(--widthFormMobile);
-        padding: 3%;
-    }
-    .forms{
-        height: auto;
-        overflow-y: auto;
-    }
+
     .sectionForms{
         height: auto;
         top: 12%;
@@ -493,7 +486,15 @@ input[type="number"] {
         font-size: var(--fontSizeSubtitleForm);
         margin-top: 5%;
     }      
-
+    form{
+        width: var(--widthFormMobile);
+        padding: 3%;
+    }
+    .forms{
+        height: auto;
+        overflow-y: auto;
+        margin-bottom: 2%;
+    }
 }
 
 
