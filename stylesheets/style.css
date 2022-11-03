@@ -43,6 +43,12 @@
     /*Variaveis GPS*/
     --buttonColor: #EC362D;
     --widthForm:33%;
+    --widthFormMobile:100%;
+    --fontSizeDesktop: 1.5rem;
+    --fontSizeMobile: 1.2rem;
+    --fontSizeTitleForm:1.5rem;
+    --fontSizeSubtitleForm:1.2rem;
+
 }
 
 * {
@@ -364,34 +370,41 @@ form{
 .buttonForm{
     width: 20%;
     height: 54px;
-    margin-top: 5%;
+    margin-top: 3%;
     color: white;
     background-color: var(--buttonColor);
     border: none;
     border-radius: 20px;
-    font-size: 21px;
+    font-size: var(--fontSizeSubtitleForm);
     font-weight: 400;
 }
-.titleForm,.subtitleForm{
-    font-size: 1.5rem;
+.titleForm{
+    font-size: var(--fontSizeTitleForm);
+    font-weight: 700;
+    margin-bottom: 3%;
+}
+.subtitleForm{
+    font-size: var(--fontSizeSubtitleForm);
     font-weight: 700;
     margin-bottom: 2%;
+    margin-top: 3%;
 }
 .finalQuizz{
     width: 25%;
     height: 250px;
+    border-radius: 10px;
     background-color: green;
 }
 .backHome{
     margin-top: 2%;
-    font-size: 21px;
+    font-size: var(--bodyBackgroundColor);
     font-weight: 400;
     color:gray;
 }
 .question2,.question3,.level2,.level3{
     width: var(--widthForm);
     height: 84px;
-    margin-top: 3%;
+    margin-top: 2%;
     background-color: white;
     display: flex;
     justify-content: space-between;
@@ -415,3 +428,53 @@ input[type="number"] {
 ::placeholder{
     font-style: italic;
 }
+
+@media (max-width: 1100px) {
+
+    form{
+        width: var(--widthFormMobile);
+        padding: 3%;
+    }
+    .forms{
+        height: auto;
+        overflow-y: auto;
+    }
+    .sectionForms{
+        height: auto;
+        top: 12%;
+        padding-bottom:8%;
+        overflow-y: auto;
+    }
+    .question2,.question3,.level2,.level3{
+        width: var(--widthFormMobile);
+        margin-top: 5%;
+        padding: 3%;
+    }
+    .buttonForm{
+        width: 80%;
+        margin-top: 8%;
+        font-size: var(--fontSizeSubtitleForm);
+    }
+    .buttonFinal{
+        width: 60%;
+        margin-top: 8%;
+        font-size: var(--fontSizeSubtitleForm);
+    }
+    .titleForm{
+        font-size: var(--fontSizeTitleForm);
+        font-weight: 700;
+        margin-bottom: 7%;
+    }
+    .finalQuizz{
+        width: 90%;
+        height: 200px;
+    }
+    .backHome{
+        font-size: var(--fontSizeSubtitleForm);
+        margin-top: 5%;
+    }      
+
+}
+
+
+
