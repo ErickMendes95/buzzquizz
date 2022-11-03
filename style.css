@@ -13,6 +13,14 @@
     --quizzQuestionHeaderWidth: 688px;
     --quizzQuestionHeaderHeigth: 138px;
     /*Variaveis Érico*/
+
+    /* Variaveis Erick */
+    --QuizzBoxWidth: 1051px;
+    --myQuizzBoxHeight: 181px;
+    --tela1QuizzWidth: 340px;
+    --tela1QuizzHeight: 181px;
+    --allQuizzBoxHeight: 362px;
+    /* Variaveis Erick */
 }
 
 * {
@@ -46,6 +54,73 @@ header p {
 
 main {
     font-family: 'Roboto';
+}
+
+/* Tela 1 */
+
+.myQuizz{
+    width: var(--QuizzBoxWidth);
+    height: var(--myQuizzBoxHeight);
+    margin: calc(var(--headerHeight) * 2) auto var(--headerHeight) auto;
+}
+
+.myQuizzEmpty {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px dashed #D4D4D4;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.myQuizzFull {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.grayText {
+    color: #B9B9B9;
+}
+
+.createQuizz {
+    border: 1px dashed #EC362D;
+    border-radius: 50px;
+    width: 151px;
+    height: 40px;
+    color: #EC362D;
+    background-color: #E5E5E5;
+    font-size: 20px;
+}
+
+.allQuizzes {
+    width: var(--QuizzBoxWidth);
+    height: var(--allQuizzBoxHeight);
+    margin: var(--headerHeight) auto;
+}
+
+.bigText{
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.allQuizzesBox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.allQuizzesBox img, .myQuizzFull img {
+    width: 340px;
+    height: 181px;
+    border-radius: 10px;
 }
 
 /*Quizz Header da Tela 2*/
