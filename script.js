@@ -2,36 +2,46 @@
 function getQuizzes() {
     axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes')
         .then((response) => {
-            // console.log(response.data);
+            console.log(response.data);
         })
         .catch((error) => {
-            // console.log(error);
+            console.log(error);
         })
 }
 
 /* Função utilizada para pegar um quizz específico da API */
 function getSelectedQuizz(quizzId) {
+    
+    toggleLoader();
+
     axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizzId}`)
         .then((response) => {
             // console.log(response.data);
             assembleSelectedQuizzPage(response.data);
         })
         .catch((error) => {
-            // console.log(error);
+            console.log(error);
         })
-}   
+}  
+
+function toggleLoader() {
+    document.querySelector('.screenLoader').classList.toggle('hideElement');
+}
+
+function toggleScreen2() {
+    document.querySelector('.screen2').classList.toggle('hideElement');
+}
 
 /* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
-
-// getSelectedQuizz(15102); //used as an example
 
 /* Função utilizada para montar o quizz específico pego da API */
 function assembleSelectedQuizzPage(quizz) {
     
+    console.log(quizz);
     const levelSelected = 0; //used as an example
 
     changeQuizzHeader(quizz);    
-    changeQuizzAnswers(quizz, levelSelected);
+    changeQuizzQuestions(quizz);
     changeQuizzResults(quizz, levelSelected);      
 }
 
@@ -43,23 +53,27 @@ function changeQuizzHeader(quizz) {
     quizzHeader.querySelector('h1').innerHTML = quizz.title;
 }
 
-function changeQuizzAnswers(quizz, levelSelected) {
-    let quizzAnswers = quizz.questions[levelSelected].answers;
+function changeQuizzQuestions(quizz) {
 
     const quizzQuestions = document.querySelector('.quizzQuestions');
-    
-    quizzQuestions.innerHTML += `
-        <section class="quizzQuestion">
-            <div class="quizzQuestionHeader">
-                <p>
-                    ${quizz.questions[levelSelected].title}
-                </p>
-            </div>
-            <div class="quizzOptions">
-                ${constructQuizzAnswers(quizzAnswers)}
-            </div>
-        </section>        
-            `;
+
+    for(let question in quizz.questions) {
+        
+        let quizzAnswers = quizz.questions[question].answers;
+        
+        quizzQuestions.innerHTML += `
+            <section class="quizzQuestion">
+                <div class="quizzQuestionHeader">
+                    <p>
+                        ${quizz.questions[question].title}
+                    </p>
+                </div>
+                <div class="quizzOptions">
+                    ${constructQuizzAnswers(quizzAnswers)}
+                </div>
+            </section>        
+                `;
+    }
 }
 
 function constructQuizzAnswers(quizzAnswers) {
@@ -100,6 +114,8 @@ function changeQuizzResults(quizz, levelSelected) {
     });
 
     quizzResults.innerHTML = quizzResultsHTML[levelSelected];
+    toggleLoader();
+    toggleScreen2();
 }
 /* FIM JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
 

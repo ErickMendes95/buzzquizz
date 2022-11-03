@@ -8,11 +8,12 @@
     --headerHeight: 69px;
     --headerColor: #EC362D;
 
+    --loaderTextColor: #EC362D;
+
     --quizzHeaderHeight: 227px;
     --quizzHeaderHeightMobile: 142px;
     
     --quizzQuestionWidth: 759px;
-    --quizzQuestionHeight: 676px;
     --quizzQuestionMargin: 42px;
     --quizzQuestionPadding: 36px;
     --quizzQuestionWidthMobile: 375px;
@@ -85,6 +86,37 @@ main {
     font-family: 'Roboto';
 }
 
+.screenLoader{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    height: calc(100vh - var(--headerHeight));
+    margin-top: var(--headerHeight);
+}
+
+.screenLoader img {
+    animation: loaderSpin 1.2s infinite linear;
+}
+
+@keyframes loaderSpin {
+    from {
+        transform: rotate(0deg);
+    } 
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.screenLoader p {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 400;
+    margin-top: 15px;
+    color: var(--loaderTextColor);
+}
+
 /*INICIO TELA 2 - ÉRICO*/
 .quizzHeader {
     position: relative;
@@ -140,7 +172,7 @@ main {
 
 .quizzQuestion{
     width: var(--quizzQuestionWidth);
-    height: var(--quizzQuestionHeight);
+    height: auto;
     background: #FFFFFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
     margin: var(--quizzQuestionMargin) auto;
@@ -208,6 +240,7 @@ main {
 .quizzResultsMain {
     display: flex;
     justify-content: space-between;
+    word-break: break-all !important;
 }
 
 .quizzResultsMain img {
@@ -320,6 +353,7 @@ main {
     .quizzResultsMain p {
         margin-top: 15px;
         font-size: 17px;
+        
     }
     
 }
