@@ -1,0 +1,627 @@
+/*Import da fonte Roboto*/
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap%27%27');
+
+:root {
+    /*Variáveis Érico*/
+    --bodyBackgroundColor: #E5E5E5;
+
+    --headerHeight: 69px;
+    --headerColor: #EC362D;
+
+    --quizzHeaderHeight: 227px;
+    --quizzHeaderHeightMobile: 142px;
+    
+    --quizzQuestionWidth: 759px;
+    --quizzQuestionHeight: 676px;
+    --quizzQuestionMargin: 42px;
+    --quizzQuestionPadding: 36px;
+    --quizzQuestionWidthMobile: 375px;
+    --quizzQuestionPaddingMobile: 18px;
+
+    --quizzQuestionHeaderWidth: 688px;
+    --quizzQuestionHeaderHeigth: 138px;
+    --quizzQuestionHeaderHeigthMobile: 89px;
+    --quizzQuestionHeaderColor1: #434CA0;  
+    --quizzQuestionHeaderColor2: #A0438D;  
+
+    --quizzQuestionOptionImgWidth: 330px;
+    --quizzQuestionOptionImgHeight: 175px;
+    --quizzQuestionOptionImgWidthMobile: 163px;
+    --quizzQuestionOptionImgHeightMobile: 113px;
+
+    --quizzResultsWidth: 759px;
+    --quizzResultsHeight: 430px;
+    --quizzResultsHeaderWidth: 727px;
+    --quizzResultsHeaderHeight: 99px;
+    --quizzResultsHeaderColor: #EC362D;
+    --quizzResultsPadding: 18px;
+    --quizzResultsWidthMobile: 375px;
+
+    --quizzFinalRestartButtonWidth: 260px; 
+    --quizzFinalRestartButtonHeight: 52px;
+    --quizzFinalRestartButtonColor: #EC362D;
+
+    /*Variaveis GPS*/
+    --buttonColor: #EC362D;
+    --widthForm:33%;
+    --widthFormMobile:100%;
+    --fontSizeDesktop: 1.5rem;
+    --fontSizeMobile: 1.2rem;
+    --fontSizeTitleForm:1.5rem;
+    --fontSizeSubtitleForm:1.2rem;
+
+    /* Variaveis Erick */
+    --QuizzBoxWidth: 1051px;
+    --myQuizzBoxHeight: 181px;
+    --tela1QuizzWidth: 340px;
+    --tela1QuizzHeight: 181px;
+    --allQuizzBoxHeight: 362px;
+    /* Variaveis Erick */
+
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bodyBackgroundColor);
+}
+
+header {
+    font-family: 'Roboto';
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: var(--headerHeight);
+    background-color: var(--headerColor);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+header p {
+    font-weight: 700;
+    font-size: 37px;
+    color: #FFFFFF;
+}
+
+main {
+    font-family: 'Roboto';
+}
+
+/* Tela 1 */
+
+.myQuizz{
+    width: var(--QuizzBoxWidth);
+    height: var(--myQuizzBoxHeight);
+    margin: calc(var(--headerHeight) * 2) auto var(--headerHeight) auto;
+}
+
+.myQuizzEmpty {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-evenly;
+    border: 1px dashed #D4D4D4;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.myQuizzFull {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.grayText {
+    color: #B9B9B9;
+}
+
+.createQuizz {
+    border: 1px dashed #EC362D;
+    border-radius: 50px;
+    width: 151px;
+    height: 40px;
+    color: #EC362D;
+    background-color: #E5E5E5;
+    font-size: 20px;
+}
+
+.allQuizzes {
+    width: var(--QuizzBoxWidth);
+    height: var(--allQuizzBoxHeight);
+    margin: var(--headerHeight) auto;
+}
+
+.bigText{
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.allQuizzesBox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.allQuizzesBox img, .myQuizzFull img {
+    width: 340px;
+    height: 181px;
+    border-radius: 10px;
+}
+
+.qbox {
+    position: relative;
+}
+
+.qbox p {
+    position: absolute;
+    background-image: linear-gradient(to top, black, transparent);
+    border-radius: 8px;
+    bottom: 2%;
+    left: 0%;
+    width: 100%;
+    font-size: 22px;
+    height: 29%;
+    color: #FFFFFF;
+    padding-left: 1rem;
+    padding-top: 3rem;
+}
+
+@media (max-width: 1100px) {
+
+    .myQuizz {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .myQuizzEmpty {
+        width: 340px;
+    }
+
+    .myQuizzFull{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    .allQuizzes {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .allQuizzes .bigText, .myQuizzFull .bigText {
+        margin-right: 11rem;
+    }
+
+    .allQuizzesBox{
+        flex-direction: column;
+        width: fit-content;
+    }
+}
+
+/* FIM TELA 1 - ERICK */
+
+/*INICIO TELA 2 - ÉRICO*/
+.quizzHeader {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    height: var(--quizzHeaderHeight);
+    margin-top: var(--headerHeight);
+    background-color: blue;
+}
+
+.quizzHeader img {
+    width: 100%;
+}
+
+.quizzHeader .quizzHeaderGradient {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0.6;
+}
+
+.quizzHeader h1 {
+    position: absolute;
+    text-align: center;
+    font-size: 39px;
+    font-weight: 400;
+    color: #FFFFFF;
+}
+
+.quizzOptions {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.quizzOptions figure {
+    position: relative;
+}
+
+.quizzOptions figure .quizzQuestionOptionBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+    background-color: #FFFFFF;
+}
+
+.quizzQuestion{
+    width: var(--quizzQuestionWidth);
+    height: var(--quizzQuestionHeight);
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    margin: var(--quizzQuestionMargin) auto;
+    padding: var(--quizzQuestionPadding);
+}
+
+.quizzQuestionHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--quizzQuestionHeaderWidth);
+    height: var(--quizzQuestionHeaderHeigth);
+    background-color: var(--quizzQuestionHeaderColor1)
+}
+
+.quizzQuestionHeader p {
+    text-align: center;
+    font-weight: 700;
+    font-size: 23px;
+    color: #FFFFFF;
+}
+
+.quizzQuestionOption {
+    margin-top: 30px;
+}
+
+.quizzQuestionOption img{
+    width: var(--quizzQuestionOptionImgWidth);
+    height: var(--quizzQuestionOptionImgHeight);
+}
+
+.quizzQuestionOption p {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.quizzResults {
+    width: var(--quizzResultsWidth);
+    height: var(--quizzResultsHeight);
+    padding: var(--quizzResultsPadding);
+    background-color: #FFFFFF;
+    margin: 0 auto;
+    margin-bottom: 30px; /*Remove after*/
+}
+
+.quizzResultsHeader {
+    width: var(--quizzResultsHeaderWidth);
+    height: var(--quizzResultsHeaderHeight);
+    background-color: var(--quizzResultsHeaderColor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.quizzResultsHeader p {
+    text-align: center;
+    font-size: 23px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.quizzResultsMain {
+    display: flex;
+    justify-content: space-between;
+}
+
+.quizzResultsMain img {
+    width: 364px;
+    height: 273px;
+}
+
+.quizzResultsMain p {
+    width: 328px;
+    color: #484848;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.quizzFinalButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.quizzFinalButtons button {
+    margin-bottom: 20px;
+}
+
+.quizzFinalButtons button p {
+    font-size: 21px;
+    font-weight: 400;
+}
+
+.quizzFinalButtons button.restartQuizz {
+    width: 260px;
+    height: 52px;
+    border: 0px;
+    border-radius: 15px;
+    background-color: var(--quizzFinalRestartButtonColor);
+}
+
+.quizzFinalButtons button.restartQuizz p {
+    color: #FFFFFF;
+}
+
+.quizzFinalButtons button.returnHome {
+    border: 0px;
+    background-color: var(--bodyBackgroundColor);
+}
+
+.quizzFinalButtons button.returnHome p {
+    color: #818181;
+}
+
+.hideElement {
+    display: none;
+}
+
+@media (max-width: 850px) {
+
+    .quizzHeader {
+        height: var(--quizzHeaderHeightMobile);
+    }
+
+    .quizzHeader h1 {
+        font-size: 19px;
+    }
+
+    .quizzQuestion {
+        height: auto;
+    }
+
+    .quizzQuestionOption {
+        width: var(--quizzQuestionOptionImgWidthMobile);
+    }
+
+    .quizzQuestionOption img{
+        width: var(--quizzQuestionOptionImgWidthMobile);
+        height: var(--quizzQuestionOptionImgHeightMobile);
+    }
+
+    .quizzQuestionOption p {
+        font-size: 13px;
+    }
+
+    .quizzQuestion{
+        width: var(--quizzQuestionWidthMobile);  
+        padding: var(--quizzQuestionPaddingMobile);
+    }
+    
+    .quizzQuestionHeader, .quizzResultsHeader {
+        width: 100%;
+        height: var(--quizzQuestionHeaderHeigthMobile);
+        padding: 15px;
+    }
+
+    .quizzQuestionHeader p, .quizzResultsHeader p {
+        font-size: 19px;
+    }
+
+    .quizzResults {
+        width: var(--quizzResultsWidthMobile);
+        height: auto;
+    }
+
+    .quizzResultsMain {
+        flex-direction: column;
+    }
+
+    .quizzResultsMain img {
+        width: 100%;
+    }
+
+    .quizzResultsMain p {
+        margin-top: 15px;
+        font-size: 17px;
+    }
+    
+}
+
+@media (max-width: 350px) {
+
+    .quizzQuestion {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .quizzOptions {
+        justify-content: center;
+    }
+
+    .quizzResults {
+        width: 100%;
+        word-break: break-all;
+    }
+
+    .quizzResultsMain p {
+        width: 100%;
+    }
+    
+}
+/*FIM TELA 2 - ÉRICO*/
+
+
+/*FORMULÁRIOS - CRIAÇÃO DE QUIZZ - GPS*/
+
+.hidden{
+    display: none !important;
+    z-index: -5;
+}
+.sectionForms{
+    background-color: #E5E5E5;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    position: absolute;
+    top: 15%;
+    padding-bottom: 8%;
+}
+.forms{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+form{
+    width: var(--widthForm);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+    border: 1px solid rgb(226, 226, 226);
+}
+.forms input{
+    height: 46px;
+    margin-bottom: 2%;
+    border: 1px solid rgb(226, 226, 226);
+    border-radius: 7px;
+    padding-left: 2%;
+}
+.buttonForm{
+    width: 20%;
+    height: 54px;
+    margin-top: 3%;
+    color: white;
+    background-color: var(--buttonColor);
+    border: none;
+    border-radius: 20px;
+    font-size: var(--fontSizeSubtitleForm);
+    font-weight: 400;
+}
+.titleForm{
+    font-size: var(--fontSizeTitleForm);
+    font-weight: 700;
+    margin-bottom: 3%;
+}
+.subtitleForm{
+    font-size: var(--fontSizeSubtitleForm);
+    font-weight: 700;
+    margin-bottom: 2%;
+    margin-top: 3%;
+}
+.finalQuizz{
+    width: 25%;
+    height: 250px;
+    border-radius: 10px;
+    background-color: green;
+}
+.backHome{
+    margin-top: 2%;
+    font-size: var(--bodyBackgroundColor);
+    font-weight: 400;
+    color:gray;
+}
+.question2,.question3,.level2,.level3{
+    width: var(--widthForm);
+    height: 84px;
+    margin-top: 2%;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+}
+.sectionForms ion-icon{
+    font-size: 36px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+::placeholder{
+    font-style: italic;
+}
+
+@media (max-width: 1100px) {
+
+    form{
+        width: var(--widthFormMobile);
+        padding: 3%;
+    }
+    .forms{
+        height: auto;
+        overflow-y: auto;
+    }
+    .sectionForms{
+        height: auto;
+        top: 12%;
+        padding-bottom:8%;
+        overflow-y: auto;
+    }
+    .question2,.question3,.level2,.level3{
+        width: var(--widthFormMobile);
+        margin-top: 5%;
+        padding: 3%;
+    }
+    .buttonForm{
+        width: 80%;
+        margin-top: 8%;
+        font-size: var(--fontSizeSubtitleForm);
+    }
+    .buttonFinal{
+        width: 60%;
+        margin-top: 8%;
+        font-size: var(--fontSizeSubtitleForm);
+    }
+    .titleForm{
+        font-size: var(--fontSizeTitleForm);
+        font-weight: 700;
+        margin-bottom: 7%;
+    }
+    .finalQuizz{
+        width: 90%;
+        height: 200px;
+    }
+    .backHome{
+        font-size: var(--fontSizeSubtitleForm);
+        margin-top: 5%;
+    }      
+
+}
+
+
+
