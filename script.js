@@ -46,7 +46,7 @@ function toggleScreen2() {
 
 /* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
 
-getSelectedQuizz(15102)
+// getSelectedQuizz(15102);
 
 /* Função utilizada para montar o quizz específico pego da API */
 function assembleSelectedQuizzPage(quizz) {
