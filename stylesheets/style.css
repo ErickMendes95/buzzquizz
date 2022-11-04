@@ -94,7 +94,6 @@ main {
     font-family: 'Roboto';
 }
 
-<<<<<<< HEAD
 /* Tela 1 */
 
 .myQuizz{
@@ -213,7 +212,6 @@ main {
 }
 
 /* FIM TELA 1 - ERICK */
-=======
 .screenLoader{
     display: flex;
     flex-direction: column;
@@ -244,7 +242,6 @@ main {
     margin-top: 15px;
     color: var(--loaderTextColor);
 }
->>>>>>> c3cc11fe581036b20207e12c7725c2e51dd07ef6
 
 /*INICIO TELA 2 - ÉRICO*/
 .quizzHeader {
