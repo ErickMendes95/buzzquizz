@@ -4,32 +4,25 @@
 :root {
     /*Variáveis Érico*/
     --bodyBackgroundColor: #E5E5E5;
-
     --headerHeight: 69px;
     --headerColor: #EC362D;
-
     --loaderTextColor: #EC362D;
-
     --quizzHeaderHeight: 227px;
     --quizzHeaderHeightMobile: 142px;
-    
     --quizzQuestionWidth: 759px;
     --quizzQuestionMargin: 42px;
     --quizzQuestionPadding: 36px;
     --quizzQuestionWidthMobile: 375px;
     --quizzQuestionPaddingMobile: 18px;
-
     --quizzQuestionHeaderWidth: 688px;
     --quizzQuestionHeaderHeigth: 138px;
     --quizzQuestionHeaderHeigthMobile: 89px;
     --quizzQuestionHeaderColor1: #434CA0;  
     --quizzQuestionHeaderColor2: #A0438D;  
-
     --quizzQuestionOptionImgWidth: 330px;
     --quizzQuestionOptionImgHeight: 175px;
     --quizzQuestionOptionImgWidthMobile: 163px;
     --quizzQuestionOptionImgHeightMobile: 113px;
-
     --quizzResultsWidth: 759px;
     --quizzResultsHeight: 430px;
     --quizzResultsHeaderWidth: 727px;
@@ -37,7 +30,6 @@
     --quizzResultsHeaderColor: #EC362D;
     --quizzResultsPadding: 18px;
     --quizzResultsWidthMobile: 375px;
-
     --quizzFinalRestartButtonWidth: 260px; 
     --quizzFinalRestartButtonHeight: 52px;
     --quizzFinalRestartButtonColor: #EC362D;
@@ -94,8 +86,7 @@ main {
     font-family: 'Roboto';
 }
 
-<<<<<<< HEAD
-/* Tela 1 */
+/* INICIO TELA 1 - ERICK */
 
 .myQuizz{
     width: var(--QuizzBoxWidth);
@@ -213,7 +204,9 @@ main {
 }
 
 /* FIM TELA 1 - ERICK */
-=======
+
+/*INICIO TELA 2 - ÉRICO*/
+
 .screenLoader{
     display: flex;
     flex-direction: column;
@@ -244,9 +237,7 @@ main {
     margin-top: 15px;
     color: var(--loaderTextColor);
 }
->>>>>>> c3cc11fe581036b20207e12c7725c2e51dd07ef6
 
-/*INICIO TELA 2 - ÉRICO*/
 .quizzHeader {
     position: relative;
     display: flex;
