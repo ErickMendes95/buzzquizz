@@ -24,25 +24,28 @@ function getSelectedQuizz(quizzId) {
         })
 }  
 
+/* Função para exibir e esconder a div do Loader */
 function toggleLoader() {
     document.querySelector('.screenLoader').classList.toggle('hideElement');
 }
 
+/* Função para exibir e esconder a div da Tela 2 */
 function toggleScreen2() {
     document.querySelector('.screen2').classList.toggle('hideElement');
 }
 
 /* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
 
+// getSelectedQuizz(15102);
+
 /* Função utilizada para montar o quizz específico pego da API */
 function assembleSelectedQuizzPage(quizz) {
     
-    console.log(quizz);
-    const levelSelected = 0; //used as an example
+    const levelSelected = 0; // level - 0 usado de exemplo
 
-    changeQuizzHeader(quizz);    
-    changeQuizzQuestions(quizz);
-    changeQuizzResults(quizz, levelSelected);      
+    changeQuizzHeader(quizz); // Monta o cabeçalho do quizz
+    changeQuizzQuestions(quizz); // Monta todas as perguntas do quizz
+    changeQuizzResults(quizz, levelSelected); // Monta os resultados do quizz
 }
 
 function changeQuizzHeader(quizz) {
@@ -94,14 +97,25 @@ function constructQuizzAnswers(quizzAnswers) {
     return quizzQuestionOptionsHTML;
 }
 
+/* Função utilizada para aplicar a lógica de seleção a todas as perguntas do quizz */
 function addSelectionLogicToQuestion() {
 
+    // Percorre todos os elementos da página com a classe de opção de resposta
     document.querySelectorAll('.quizzQuestionOption').forEach((question) => {
+        
+        // Adiciona um event listener em todas as opçoes de resposta
         question.addEventListener('click', () => {
+
+            // array contendo todas as divs das opções de resposta da pergunta selecionada
             const listOfQuestions = Array.from(question.parentNode.querySelectorAll('.quizzQuestionOption'));
             
+            // For usado para percorre item a item da lista
             for(let questionIndex in listOfQuestions) {
+
+                // Seleciona a div de fundo transparente do elemento atual
                 const transpBack = listOfQuestions[questionIndex].childNodes[1].querySelector('.quizzQuestionOptionBackground');
+                
+                // Lógica de seleção da opção
                 transpBack.classList.add('hideElement');
                 if(listOfQuestions[questionIndex] !== question) {
                     transpBack.classList.toggle('hideElement');
@@ -136,9 +150,6 @@ function changeQuizzResults(quizz, levelSelected) {
     toggleLoader(); toggleScreen2();
 }
 /* FIM JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
-
-
-
 
 /* JAVASCRIPT - CADASTRO DE QUIZZ - GPS*/
 let quizzTitle = "";

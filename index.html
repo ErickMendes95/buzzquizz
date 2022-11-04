@@ -15,7 +15,7 @@
     <main>
 
         <!-- Start of screen 1 -->
-        <section class="myQuizz">
+        <section class="myQuizz hidden">
             <div class="myQuizzEmpty">
                 <div>
                     <p class="grayText">Você não criou nenhum <br> quizz ainda :(</p>
@@ -25,17 +25,23 @@
                 </div>
             </div>
         </section>
-        <section class="allQuizzes">
+        <section class="allQuizzes hidden">
             <div class="bigText">Todos os Quizzes</div>
             <div class="allQuizzesBox">
                 <!-- example of content to create in JS -->
                 <!-- <div class="qbox">
                     <img src= https://source.unsplash.com/featured/300x202>
-                    <p></p>
+                    <p></p> 
                 </div> -->
             </div>
         </section>
         <!-- End of Screen 1 -->
+
+        <!--Screen Loader-->
+        <div class="screenLoader hideElement">
+            <img src="images/loader.png">
+            <p>Carregando</p>
+        </div>
 
         <!--Begin of Screen 2 *******-->
         <div class="screen2 hideElement">
