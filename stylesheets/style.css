@@ -18,9 +18,9 @@
     --quizzQuestionHeaderHeigth: 138px;
     --quizzQuestionHeaderHeigthMobile: 89px;
     --quizzQuestionOptionImgWidth: 330px;
-    --quizzQuestionOptionImgHeight: 175px;
+    --quizzQuestionOptionImgHeight: auto;
     --quizzQuestionOptionImgWidthMobile: 163px;
-    --quizzQuestionOptionImgHeightMobile: 113px;
+    --quizzQuestionOptionImgHeightMobile: auto;
     --quizzResultsWidth: 759px;
     --quizzResultsHeight: 430px;
     --quizzResultsHeaderWidth: 727px;
@@ -28,6 +28,7 @@
     --quizzResultsHeaderColor: #EC362D;
     --quizzResultsPadding: 18px;
     --quizzResultsWidthMobile: 375px;
+    --quizzResultsImgWidth: 364px;
     --quizzFinalRestartButtonWidth: 260px; 
     --quizzFinalRestartButtonHeight: 52px;
     --quizzFinalRestartButtonColor: #EC362D;
@@ -206,6 +207,11 @@ main {
 
 /*INICIO TELA 2 - ÉRICO*/
 
+.screen2 {
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+
 .screenLoader{
     display: flex;
     flex-direction: column;
@@ -246,6 +252,7 @@ main {
     width: 100%;
     height: var(--quizzHeaderHeight);
     margin-top: var(--headerHeight);
+    margin-bottom: var(--quizzQuestionMargin);
     background-color: blue;
 }
 
@@ -277,6 +284,9 @@ main {
 
 .quizzOptions figure {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .quizzOptions figure .quizzQuestionOptionBackground {
@@ -294,7 +304,7 @@ main {
     height: auto;
     background: #FFFFFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
-    margin: var(--quizzQuestionMargin) auto;
+    margin: 0 auto var(--quizzQuestionMargin) auto;
     padding: var(--quizzQuestionPadding);
 }
 
@@ -304,7 +314,9 @@ main {
     align-items: center;
     width: var(--quizzQuestionHeaderWidth);
     height: var(--quizzQuestionHeaderHeigth);
-    background-color: var(--quizzQuestionHeaderColor1)
+    background-color: var(--quizzQuestionHeaderColor1);
+    padding: 15px;
+    word-break: normal;
 }
 
 .quizzQuestionHeader p {
@@ -316,6 +328,7 @@ main {
 
 .quizzQuestionOption {
     margin-top: 30px;
+    width: 50%;
 }
 
 .quizzQuestionOption img{
@@ -347,6 +360,7 @@ main {
     justify-content: center;
     align-items: center;
     margin-bottom: 18px;
+    word-break: normal;
 }
 
 .quizzResultsHeader p {
@@ -359,11 +373,11 @@ main {
 .quizzResultsMain {
     display: flex;
     justify-content: space-between;
-    word-break: break-all !important;
+    word-break: normal;
 }
 
 .quizzResultsMain img {
-    width: 364px;
+    width: var(--quizzResultsImgWidth);
     height: 273px;
 }
 
@@ -390,11 +404,11 @@ main {
 }
 
 .quizzFinalButtons button.restartQuizz {
-    width: 260px;
-    height: 52px;
+    width: var(--quizzFinalRestartButtonWidth);
+    height: var(--quizzFinalRestartButtonHeight);
+    background-color: var(--quizzFinalRestartButtonColor);
     border: 0px;
     border-radius: 15px;
-    background-color: var(--quizzFinalRestartButtonColor);
 }
 
 .quizzFinalButtons button.restartQuizz p {
@@ -490,13 +504,17 @@ main {
 
     .quizzResults {
         width: 100%;
-        word-break: break-all;
     }
 
     .quizzResultsMain p {
         width: 100%;
     }
-    
+}
+
+@media (max-width: 260px) {
+    .quizzFinalButtons button.restartQuizz {
+        width: 95%;
+    }
 }
 
 
