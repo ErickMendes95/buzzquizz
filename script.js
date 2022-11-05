@@ -1,12 +1,8 @@
-/* Array contendo todas as divs de perguntas que já foram respondidas,
-   este array é usado pela função addSelectionLogicToQuestions() para
-   evitar com que o usuário mude a resposta de uma pergunta, esta variável
-   também é utilizada na função checkGameOver() para verificar se todas as
-   perguntas já foram respondidas, liberando os resultados */
+// Variaveis utilizadas na Tela 2
 const questionsAnswered = [];
 let numberOfQuestionsInQuizz;
 let selectedQuizz;
-let levelSelected;
+let resultsLevel;
 let correctAnswers = [];
 
 /* Função utilizada para pegar todos os quizzes da API */
@@ -47,35 +43,33 @@ function toggleScreen2() {
 
 /* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
 
-// getSelectedQuizz(15102);
+// getSelectedQuizz(3000);
 
 /* Função utilizada para montar o quizz específico pego da API */
 function assembleSelectedQuizzPage(quizz) {
 
     selectedQuizz = quizz;
-    levelSelected = 0; // level - 0 usado de exemplo
 
-    changeQuizzHeader(quizz); // Monta o cabeçalho do quizz
-    changeQuizzQuestions(quizz); // Monta todas as perguntas do quizz
+    changeQuizzHeader(); // Monta o cabeçalho do quizz
+    changeQuizzQuestions(); // Monta todas as perguntas do quizz
 }
 
-function changeQuizzHeader(quizz) {
+function changeQuizzHeader() {
     const quizzHeader = document.querySelector('.quizzHeader');
 
-    // changes the quizz header image and title 
-    quizzHeader.querySelector('img').src = quizz.image;
-    quizzHeader.querySelector('h1').innerHTML = quizz.title;
+    quizzHeader.querySelector('img').src = selectedQuizz.image;
+    quizzHeader.querySelector('h1').innerHTML = selectedQuizz.title;
 }
 
-function changeQuizzQuestions(quizz) {
+function changeQuizzQuestions() {
 
-    numberOfQuestionsInQuizz = quizz.questions.length;
+    numberOfQuestionsInQuizz = selectedQuizz.questions.length;
 
     const quizzQuestions = document.querySelector('.quizzQuestions');
 
-    for(let question in quizz.questions) {   
+    for(let question in selectedQuizz.questions) {   
 
-        let quizzAnswers = quizz.questions[question].answers;
+        let quizzAnswers = selectedQuizz.questions[question].answers;
 
         sortQuizzAnswers(quizzAnswers);
         
@@ -83,7 +77,7 @@ function changeQuizzQuestions(quizz) {
             <section class="quizzQuestion">
                 <div class="quizzQuestionHeader">
                     <p>
-                        ${quizz.questions[question].title}
+                        ${selectedQuizz.questions[question].title}
                     </p>
                 </div>
                 <div class="quizzOptions">
@@ -197,35 +191,71 @@ function addSelectionLogicToQuestions() {
             changeAnswersTextColor(currentQuestionDiv);
 
             if(checkGameOver()) {
-                changeQuizzResults(selectedQuizz, levelSelected); // Monta os resultados do quizz
+                changeQuizzResults(); // Monta os resultados do quizz
             }
         })
     });    
 }
 
-function changeQuizzResults(quizz, levelSelected) {
-    
+function changeQuizzResults() {
+
     const quizzResults = document.querySelector('.quizzResults');
     const quizzResultsHTML = []; 
     const levelsMinValue = [];
 
-    quizz.levels.forEach((level, index) => {
+    const userScore = getUserQuizzScore();
+
+
+    /*Cria todas as variações de div de resultado possíveis */
+    selectedQuizz.levels.forEach((level, index) => {
 
         quizzResultsHTML[index] = `
             <div class="quizzResultsHeader">
-                <p>${level.title}</p>
+                <p>${userScore}% de acerto: ${level.title}</p>
             </div>
             <div class="quizzResultsMain">
                 <img src="${level.image}">
                 <p>${level.text}</p>
             </div>
         `;
-        
+
+        // Cria um array contendo as porcentagens minimas de acerto
         levelsMinValue.push(level.minValue);
     });
 
-    quizzResults.innerHTML = quizzResultsHTML[levelSelected];
+    /* Verifica qual a porcentagem minima dos níveis o usuario 
+       conseguiu acertar, isso será utilizado na montagem da div 
+       de resultados, alterando a imagem e os textos*/
+    for(let i = levelsMinValue.length-1; i >= 0; i--) {
+        if(userScore >= levelsMinValue[i]) {
+            resultsLevel = levelsMinValue[i];
+            break;
+        }
+    }
+
+    // Adiciona o template correto de div de resultado dependendo do número de acertos do usuario
+    quizzResults.innerHTML = quizzResultsHTML[levelsMinValue.indexOf(resultsLevel)];
     quizzResults.classList.remove('hideElement')
+}
+
+// Cálcula a quantidade de acertos do usario, retorna este valor em porcentagem
+function getUserQuizzScore() {
+
+    let numberOfHits = 0
+
+    document.querySelectorAll('.quizzQuestionOption').forEach(option => {
+        if(option.classList.contains('isCorrectAnswer')) {
+
+            const optionSelectedIsCorrect = option.querySelector('p').style.color === 'rgb(0, 156, 34)' &&
+                                            option.querySelector('.quizzQuestionOptionBackground').classList.contains('hideElement')
+
+            if(optionSelectedIsCorrect) {
+                numberOfHits++;
+            }
+        }
+    })
+
+    return (numberOfHits/(correctAnswers.length))*100
 }
 
 function changeQuestionsHeadersColors() {
@@ -252,15 +282,12 @@ function changeAnswersTextColor(questionDiv) {
 
     answersArray.forEach((answer) => {
         
-        console.log(answer);
         if(correctAnswers.includes(answer)) {
             changeAnswerTextToGreen(answer);
         } else {
             changeAnswerTextToRed(answer);
         }
     });
-
-    console.log(correctAnswers);
 }
 
 function changeAnswerTextToGreen(answer) {
