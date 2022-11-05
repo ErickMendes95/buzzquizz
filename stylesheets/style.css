@@ -575,7 +575,7 @@ form{
     font-weight: 400;
     color:gray;
 }
-.question2,.question3,.level2,.level3{
+.question02,.question03,.level2,.level3{
     width: var(--widthForm);
     height: 84px;
     margin-top: 2%;
@@ -612,7 +612,7 @@ input[type="number"] {
         padding-bottom:8%;
         overflow-y: auto;
     }
-    .question2,.question3,.level2,.level3{
+    .question02,.question03,.level2,.level3{
         width: var(--widthFormMobile);
         margin-top: 5%;
         padding: 3%;

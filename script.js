@@ -162,13 +162,8 @@ function saveInformations(){
     quizzTitle = document.querySelector(".quizzTitle").value;
     quizzNumberQuestions = document.querySelector(".quizzNumberQuestions").value;
     quizzNumberLevels = document.querySelector(".quizzNumberLevels").value;
-    try{
-        quizzImage = new URL (document.querySelector(".quizzImage").value);
-    }catch(err){
-        quizzImage=null;
-    }
-
-    if(quizzTitle.length<20 || quizzTitle.length>65 || !quizzImage || quizzNumberQuestions<3 || quizzNumberLevels<2){
+    quizzImage = document.querySelector(".quizzImage").value;
+    if(quizzTitle.length<20 || quizzTitle.length>65 || !validateUrl(quizzImage,null,null,null) || quizzNumberQuestions<3 || quizzNumberLevels<2){
         alert("Informações erradas")
     }
     else{
@@ -194,23 +189,23 @@ function insertQuestionFields(){
             <input type="text" class="correctAnswerQuestion${i}" placeholder="Resposta correta">
             <input type="url" class="imageCorrectAnswerQuestion${i}" placeholder="URL da imagem">
             <h1 class="subtitleForm">Respostas incorretas</h1>
-            <input type="text" class="incorrectAnswerQuestion${i}"placeholder="Resposta incorreta 1">
-            <input type="url" class="imageIncorrectAnswerQuestion${i}" placeholder="URL da imagem 1">
+            <input type="text" class="incorrectAnswerQuestion1${i}"placeholder="Resposta incorreta 1">
+            <input type="url" class="imageIncorrectAnswerQuestion1${i}" placeholder="URL da imagem 1">
             <br>                
-            <input type="text" class="incorrectAnswerQuestion${i}" placeholder="Resposta incorreta 2">
-            <input type="url" class="imageIncorrectAnswerQuestion${i}" placeholder="URL da imagem 2">
+            <input type="text" class="incorrectAnswerQuestion2${i}" placeholder="Resposta incorreta 2">
+            <input type="url" class="imageIncorrectAnswerQuestion2${i}" placeholder="URL da imagem 2">
             <br>                
-            <input type="text" class="incorrectAnswerQuestion${i}" placeholder="Resposta incorreta 3">
-            <input type="url" class="imageIncorrectAnswerQuestion${i}" placeholder="URL da imagem 3">
+            <input type="text" class="incorrectAnswerQuestion3${i}" placeholder="Resposta incorreta 3">
+            <input type="url" class="imageIncorrectAnswerQuestion3${i}" placeholder="URL da imagem 3">
         </form>
     </div>`
     }
     containerQuestionFields.innerHTML+= `
-    <div class="question2">
+    <div class="question02">
         <h1 class="subtitleForm">Pergunta 2</h1>
         <ion-icon name="create-outline"></ion-icon>
     </div>
-    <div class="question3">
+    <div class="question03">
         <h1 class="subtitleForm">Pergunta 3</h1>
         <ion-icon name="create-outline"></ion-icon>
     </div>
@@ -219,7 +214,36 @@ function insertQuestionFields(){
 }
 
 function saveQuestions(){
+    let image="2";
+    const quizz = [];
+    console.log(quizzNumberQuestions);
+    for(let i=1; i<=quizzNumberQuestions; i++){
+        let question= {id:"",text:"", correctAnswer:"", colorBackground:"", imageCorrectAnswer:"",incorrectAnswer1:"",imageIncorrectAnswer1:"",
+        incorrectAnswer2:"",imageIncorrectAnswer2:"",incorrectAnswer3:"",imageIncorrectAnswer3:"",}
+        question.id=i;
+        question.text= document.querySelector(`.textQuestion${i}`).value;
+        question.colorBackground= document.querySelector(`.backgroundQuestion${i}`).value;
+        question.correctAnswer= document.querySelector(`.correctAnswerQuestion${i}`).value;
+        question.incorrectAnswer1= document.querySelector(`.incorrectAnswerQuestion1${i}`).value;
+        question.incorrectAnswer2= document.querySelector(`.incorrectAnswerQuestion2${i}`).value;
+        question.incorrectAnswer3= document.querySelector(`.incorrectAnswerQuestion3${i}`).value;
+        question.imageCorrectAnswer= document.querySelector(`.imageCorrectAnswerQuestion${i}`).value;
+        question.imageIncorrectAnswer1= document.querySelector(`.imageIncorrectAnswerQuestion1${i}`).value;
+        question.imageIncorrectAnswer2= document.querySelector(`.imageIncorrectAnswerQuestion2${i}`).value;
+        question.imageIncorrectAnswer3= document.querySelector(`.imageIncorrectAnswerQuestion3${i}`).value;
 
+        if((!validateUrl(question.imageCorrectAnswer, question.imageIncorrectAnswer1, question.imageIncorrectAnswer2, 
+        question.imageIncorrectAnswer3) || question.text<20 || question.correctAnswer=="" || (!validateColor(question.colorBackground)) ||
+        (question.incorrectAnswer1=="" && question.incorrectAnswer2=="" && question.incorrectAnswer3=="")))
+        {
+            alert("algo errado");
+            break;
+        }
+        else{
+            quizz.push(question);
+        }
+    }
+    console.log(quizz);
 }
 
 function saveLevels(){
@@ -232,4 +256,34 @@ function accessQuizz(){
 
 function home(){
 
+}
+
+
+function validateColor(code){
+    const RegExp = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i;
+    if(RegExp.test(code)==true)
+        return true;
+    else
+        return false;
+}
+
+function validateUrl(str1,str2,str3,str4){
+    if(str3){
+        try{
+            new URL (str1);
+            new URL (str2);
+            new URL (str3);
+            new URL (str4);
+            return true;
+        }catch(err){
+            return false;
+        }
+    }else{
+        try{
+            new URL (str1);
+            return true;
+        }catch(err){
+            return false;
+        }
+    }
 }
