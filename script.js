@@ -311,9 +311,13 @@ let quizzTitle = "";
 let quizzImage = "";
 let quizzNumberQuestions = 0;
 let quizzNumberLevels = 0;
+let containerInformations = document.querySelector('.quizzInformation');
+let containerQuestions = document.querySelector('.quizzQuestionsForm');
+let containerLevels = document.querySelector('.quizzLevels');
+let completeQuizz = {title:"",image:"",questions:[],levels:[]};
+
 
 function saveInformations(){
-    let containerInformations = document.querySelector('.quizzInformation')
     quizzTitle = document.querySelector(".quizzTitle").value;
     quizzNumberQuestions = document.querySelector(".quizzNumberQuestions").value;
     quizzNumberLevels = document.querySelector(".quizzNumberLevels").value;
@@ -322,7 +326,8 @@ function saveInformations(){
         alert("Informações erradas")
     }
     else{
-        console.log(containerInformations.classList)
+        completeQuizz.title = quizzTitle;
+        completeQuizz.image = quizzImage;
         containerInformations.classList.add("hidden");
         insertQuestionFields();
     }
@@ -330,11 +335,9 @@ function saveInformations(){
 }
 
 function insertQuestionFields(){
-    let containerQuestionFields = document.querySelector(".quizzQuestionsForm");
-    console.log(containerQuestionFields.classList)
-    containerQuestionFields.classList.remove("hidden");
+    containerQuestions.classList.remove("hidden");
     for(let i=1; i<=quizzNumberQuestions; i++){
-        containerQuestionFields.innerHTML += 
+        containerQuestions.innerHTML += 
         `<div class="forms question${i}">
         <form action="formInformation">
             <h1 class="subtitleForm">Pergunta ${i}</h1>
@@ -355,7 +358,7 @@ function insertQuestionFields(){
         </form>
     </div>`
     }
-    containerQuestionFields.innerHTML+= `
+    containerQuestions.innerHTML+= `
     <div class="question02">
         <h1 class="subtitleForm">Pergunta 2</h1>
         <ion-icon name="create-outline"></ion-icon>
@@ -367,43 +370,120 @@ function insertQuestionFields(){
     <button class="buttonForm" onclick="saveQuestions()">Prosseguir pra criar níveis</button>
 </section>`
 }
-
 function saveQuestions(){
-    let image="2";
-    const quizz = [];
-    console.log(quizzNumberQuestions);
+    let cont=0;
     for(let i=1; i<=quizzNumberQuestions; i++){
-        let question= {id:"",text:"", correctAnswer:"", colorBackground:"", imageCorrectAnswer:"",incorrectAnswer1:"",imageIncorrectAnswer1:"",
-        incorrectAnswer2:"",imageIncorrectAnswer2:"",incorrectAnswer3:"",imageIncorrectAnswer3:"",}
-        question.id=i;
-        question.text= document.querySelector(`.textQuestion${i}`).value;
-        question.colorBackground= document.querySelector(`.backgroundQuestion${i}`).value;
-        question.correctAnswer= document.querySelector(`.correctAnswerQuestion${i}`).value;
-        question.incorrectAnswer1= document.querySelector(`.incorrectAnswerQuestion1${i}`).value;
-        question.incorrectAnswer2= document.querySelector(`.incorrectAnswerQuestion2${i}`).value;
-        question.incorrectAnswer3= document.querySelector(`.incorrectAnswerQuestion3${i}`).value;
-        question.imageCorrectAnswer= document.querySelector(`.imageCorrectAnswerQuestion${i}`).value;
-        question.imageIncorrectAnswer1= document.querySelector(`.imageIncorrectAnswerQuestion1${i}`).value;
-        question.imageIncorrectAnswer2= document.querySelector(`.imageIncorrectAnswerQuestion2${i}`).value;
-        question.imageIncorrectAnswer3= document.querySelector(`.imageIncorrectAnswerQuestion3${i}`).value;
+        let question= {title:"", color:"", answers:[ans1={text:"",image:"",isCorrectAnswer:true},ans2={text:"",image:"",isCorrectAnswer:false},
+        ans3={text:"",image:"",isCorrectAnswer:false},ans4={text:"",image:"",isCorrectAnswer:false}]}
+        question.title= document.querySelector(`.textQuestion${i}`).value;
+        question.color= document.querySelector(`.backgroundQuestion${i}`).value;
+        ans1.text= document.querySelector(`.correctAnswerQuestion${i}`).value;
+        ans2.text= document.querySelector(`.incorrectAnswerQuestion1${i}`).value;
+        ans3.text= document.querySelector(`.incorrectAnswerQuestion2${i}`).value;
+        ans4.text= document.querySelector(`.incorrectAnswerQuestion3${i}`).value;
+        ans1.image= document.querySelector(`.imageCorrectAnswerQuestion${i}`).value;
+        ans2.image= document.querySelector(`.imageIncorrectAnswerQuestion1${i}`).value;
+        ans3.image= document.querySelector(`.imageIncorrectAnswerQuestion2${i}`).value;
+        ans4.image= document.querySelector(`.imageIncorrectAnswerQuestion3${i}`).value;
+        
+        const url1 = validateUrl(ans1.image);
+        const url2 = validateUrl(ans2.image);
+        const url3 = validateUrl(ans3.image);
+        const url4 = validateUrl(ans4.image);
 
-        if((!validateUrl(question.imageCorrectAnswer, question.imageIncorrectAnswer1, question.imageIncorrectAnswer2, 
-        question.imageIncorrectAnswer3) || question.text<20 || question.correctAnswer=="" || (!validateColor(question.colorBackground)) ||
-        (question.incorrectAnswer1=="" && question.incorrectAnswer2=="" && question.incorrectAnswer3=="")))
-        {
-            alert("algo errado");
-            break;
+        if( !url1 || (!url2 && !url3 && !url4) || (question.title).length<20 || (ans1.text).length<20 || (!validateColor(question.color)) ||
+        (ans2.text=="" && ans3.text=="" && ans4.text=="")){
+            alert("algo errado")
+            cont--;
+            return;
         }
         else{
-            quizz.push(question);
+            if(ans2.text=="" || !url2) question.answers[1]=null
+            if(ans3.text=="" || !url3) question.answers[2]=null
+            if(ans4.text=="" || !url4) question.answers[3]=null
         }
+
+        let index = question.answers.indexOf(null);
+        while(index>=0){
+            question.answers.splice(index,1);
+            index = question.answers.indexOf(null);
+        }
+        completeQuizz.questions.push(question);
+        cont++;
     }
-    console.log(quizz);
+
+
+   
+    if(cont==quizzNumberQuestions){
+        containerQuestions.classList.add("hidden");
+        insertLevelsFields();
+    }
+    else
+        alert("falhou");
 }
+
+
+function insertLevelsFields(){
+    containerLevels.classList.remove("hidden");
+    for(let i=1; i<=quizzNumberLevels; i++){
+        containerLevels.innerHTML += 
+        `<div class="forms level${i}">
+        <form action="formInformation">
+            <h1 class="subtitleForm">Nível ${i}</h1>
+            <input type="text" class="titleLevel${i}" placeholder="Título do nível">
+            <input type="number" class="minHitsLevel${i}" placeholder="% de acerto mínima">
+            <input type="url" class="imageLevel${i}" placeholder="URL da imagem do nível">
+            <input type="text" class="descriptionLevel${i}" placeholder="Descrição do nível">
+        </form>
+    </div>`
+    }
+    containerLevels.innerHTML+= `
+    <div class="level02">
+        <h1 class="subtitleForm">Nível 2</h1>
+        <ion-icon name="create-outline"></ion-icon>
+    </div>
+    <div class="level03">
+        <h1 class="subtitleForm">Nível 3</h1>
+        <ion-icon name="create-outline"></ion-icon>
+    </div>
+    <button class="buttonForm" onclick="saveLevels()">Finalizar Quizz</button>`
+}
+
 
 function saveLevels(){
+    const arrayLevels=[];
+    for(let i=1; i<=quizzNumberLevels; i++){
+    let level= {titleLevel:"", minHits:"", imageLevel:"", descriptionLevel:""}
+    level.titleLevel= document.querySelector(`.titleLevel${i}`).value;
+    level.minHits= document.querySelector(`.minHitsLevel${i}`).value;
+    level.imageLevel= document.querySelector(`.imageLevel${i}`).value;
+    level.descriptionLevel= document.querySelector(`.descriptionLevel${i}`).value;
 
+    const url = validateUrl(level.imageLevel);
+    
+    if( !url || (level.titleLevel).length<10 || (level.descriptionLevel).length<30 || level.minHits<0 || level.minHits>100){
+        alert("errado");
+        return;
+    }
+    else{
+        arrayLevels.push(level);
+    }
 }
+let minHit0 = 0;
+for(let i=0; i<arrayLevels.length;i++){
+    if(arrayLevels[i].minHits==0) minHit0++;
+}
+if(minHit0>0){
+    for(let i=0; i<arrayLevels.length;i++)
+        completeQuizz.levels.push(arrayLevels[i]);
+}else{
+    alert("min hit errado");
+    return;
+}
+console.log(completeQuizz);
+}
+
+
 
 function accessQuizz(){
 
@@ -422,23 +502,11 @@ function validateColor(code){
         return false;
 }
 
-function validateUrl(str1,str2,str3,str4){
-    if(str3){
-        try{
-            new URL (str1);
-            new URL (str2);
-            new URL (str3);
-            new URL (str4);
-            return true;
-        }catch(err){
-            return false;
-        }
-    }else{
-        try{
-            new URL (str1);
-            return true;
-        }catch(err){
-            return false;
-        }
+function validateUrl(str){
+    try{
+        new URL (str);
+        return true;
+    }catch(err){
+        return false;
     }
 }

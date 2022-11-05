@@ -573,7 +573,7 @@ form{
     font-weight: 400;
     color:gray;
 }
-.question02,.question03,.level2,.level3{
+.question02,.question03,.level02,.level03{
     width: var(--widthForm);
     height: 84px;
     margin-top: 2%;
