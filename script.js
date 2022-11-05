@@ -1,5 +1,5 @@
 /* Array contendo todas as divs de perguntas que já foram respondidas,
-   este array é usado pela função addSelectionLogicToQuestion() para
+   este array é usado pela função addSelectionLogicToQuestions() para
    evitar com que o usuário mude a resposta de uma pergunta, esta variável
    também é utilizada na função checkGameOver() para verificar se todas as
    perguntas já foram respondidas, liberando os resultados */
@@ -7,6 +7,7 @@ const questionsAnswered = [];
 let numberOfQuestionsInQuizz;
 let selectedQuizz;
 let levelSelected;
+let correctAnswers = [];
 
 /* Função utilizada para pegar todos os quizzes da API */
 function getQuizzes() {
@@ -50,7 +51,7 @@ function toggleScreen2() {
 
 /* Função utilizada para montar o quizz específico pego da API */
 function assembleSelectedQuizzPage(quizz) {
-    
+
     selectedQuizz = quizz;
     levelSelected = 0; // level - 0 usado de exemplo
 
@@ -92,7 +93,8 @@ function changeQuizzQuestions(quizz) {
                 `;
     }
 
-    addSelectionLogicToQuestion();
+    buildRightAnswersArray();
+    addSelectionLogicToQuestions();
     toggleLoader(); 
     toggleScreen2();
     changeQuestionsHeadersColors();
@@ -125,19 +127,39 @@ function constructQuizzAnswers(quizzAnswers) {
     let quizzQuestionOptionsHTML = '';
 
     for(let i = 0; i < quizzAnswers.length; i++) {
-        quizzQuestionOptionsHTML += `<div class="quizzQuestionOption">
-                                            <figure>
-                                                <img src="${quizzAnswers[i].image}">
-                                                <div class="quizzQuestionOptionBackground hideElement"></div>
-                                            </figure>
-                                            <p>${quizzAnswers[i].text}</p>
-                                    </div>`
+
+        if(quizzAnswers[i].isCorrectAnswer) {
+            quizzQuestionOptionsHTML += `<div class="quizzQuestionOption isCorrectAnswer">
+                                                <figure>
+                                                    <img src="${quizzAnswers[i].image}">
+                                                    <div class="quizzQuestionOptionBackground hideElement"></div>
+                                                </figure>
+                                                <p>${quizzAnswers[i].text}</p>
+                                        </div>`;    
+        } else {
+            quizzQuestionOptionsHTML += `<div class="quizzQuestionOption">
+                                                <figure>
+                                                    <img src="${quizzAnswers[i].image}">
+                                                    <div class="quizzQuestionOptionBackground hideElement"></div>
+                                                </figure>
+                                                <p>${quizzAnswers[i].text}</p>
+                                        </div>`;
+        }
     }
+
     return quizzQuestionOptionsHTML;
 }
 
+function buildRightAnswersArray() {
+    document.querySelectorAll('.quizzQuestionOption').forEach((option) => {
+        if(option.classList.contains('isCorrectAnswer')) {
+            correctAnswers.push(option);
+        }
+    })
+}
+
 /* Função utilizada para aplicar a lógica de seleção a todas as perguntas do quizz */
-function addSelectionLogicToQuestion() {
+function addSelectionLogicToQuestions() {
 
     // Percorre todos os elementos da página com a classe de opção de resposta
     document.querySelectorAll('.quizzQuestionOption').forEach((question) => {
@@ -145,15 +167,17 @@ function addSelectionLogicToQuestion() {
         // Adiciona um event listener em todas as opçoes de resposta
         question.addEventListener('click', () => {
 
+            const currentQuestionDiv = question.parentNode;
+
             /* Verifica se a pergunta da resposta selecionada já
             foi respondida, neste caso é dado um return de forma
             a não permitir alterações na resposta */
-            if(questionsAnswered.includes(question.parentNode)) {
+            if(questionsAnswered.includes(currentQuestionDiv)) {
                 return;
             }
 
             // array contendo todas as divs das opções de resposta da pergunta selecionada
-            const listOfQuestions = Array.from(question.parentNode.querySelectorAll('.quizzQuestionOption'));
+            const listOfQuestions = Array.from(currentQuestionDiv.querySelectorAll('.quizzQuestionOption'));
 
             // For usado para percorre item a item da lista
             for(let questionIndex in listOfQuestions) {
@@ -168,7 +192,9 @@ function addSelectionLogicToQuestion() {
                 }
             }
             // Adiciona a pergunta ao array de perguntas respondidas
-            questionsAnswered.push(question.parentNode)
+            questionsAnswered.push(currentQuestionDiv);
+
+            changeAnswersTextColor(currentQuestionDiv);
 
             if(checkGameOver()) {
                 changeQuizzResults(selectedQuizz, levelSelected); // Monta os resultados do quizz
@@ -218,6 +244,31 @@ function changeQuestionsHeadersColors() {
         colorCounter++;
         resetColorCounter();
     })
+}
+
+function changeAnswersTextColor(questionDiv) {
+    
+    const answersArray = Array.from(questionDiv.querySelectorAll('.quizzQuestionOption'));
+
+    answersArray.forEach((answer) => {
+        
+        console.log(answer);
+        if(correctAnswers.includes(answer)) {
+            changeAnswerTextToGreen(answer);
+        } else {
+            changeAnswerTextToRed(answer);
+        }
+    });
+
+    console.log(correctAnswers);
+}
+
+function changeAnswerTextToGreen(answer) {
+    answer.querySelector('p').style.color = '#009C22';
+}
+
+function changeAnswerTextToRed(answer) {
+    answer.querySelector('p').style.color = '#FF4B4B';
 }
 
 function checkGameOver() {
