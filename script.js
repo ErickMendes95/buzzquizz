@@ -1,9 +1,6 @@
 // Variaveis utilizadas na Tela 2
-const questionsAnswered = [];
-let numberOfQuestionsInQuizz;
-let selectedQuizz;
-let resultsLevel;
-let correctAnswers = [];
+let questionsAnswered = []; let correctAnswers = [];
+let numberOfQuestionsInQuizz; let selectedQuizz; let resultsLevel;
 
 /* Função utilizada para pegar todos os quizzes da API */
 function getQuizzes() {
@@ -23,7 +20,6 @@ function getSelectedQuizz(quizzId) {
 
     axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizzId}`)
         .then((response) => {
-            // console.log(response.data);
             assembleSelectedQuizzPage(response.data);
         })
         .catch((error) => {
@@ -43,7 +39,64 @@ function toggleScreen2() {
 
 /* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
 
-// getSelectedQuizz(3000);
+// getSelectedQuizz(16668);
+
+/*Adiciona funcionabilidade ao botão de restart quizz */
+document.querySelector('.restartQuizz').addEventListener('click', () => {
+    lightCleanQuizz();
+    restartQuizz();
+});
+
+/*Adiciona funcionabilidade ao botão de return home */
+document.querySelector('.returnHome').addEventListener('click', () => {
+    fullCleanQuizz();
+    // adicionar função para ir para a tela 1 quando estiver pronta
+});
+
+// função utilizada previamente ao reinicar do quizz, o quizzHeader nao é limpo
+function lightCleanQuizz() {
+    const quizzQuestions = document.querySelector('.quizzQuestions');
+    const quizzResults = document.querySelector('.quizzResults');
+
+    toggleScreen2(); toggleLoader();
+    
+    quizzQuestions.innerHTML = ''; quizzResults.innerHTML = '';  
+    quizzResults.classList.add('hideElement');
+}
+
+// função utilizada quando queremos retornar para home, também limpa o quizzHeader
+function fullCleanQuizz() {
+    lightCleanQuizz();
+    cleanQuizzHeader();
+    setTimeout(toggleLoader, 1000);
+}
+
+/* função de restart do quizz, limpa as variáveis usadas na 
+   tela 2 e reconstroi todas as perguntas do quizz*/
+function restartQuizz() {
+    cleanScreen2Variables();
+    setTimeout(() => {
+        changeQuizzQuestions();
+    }, 1000);
+}
+
+function cleanScreen2Variables() {
+    // Limpa as variaveis utilizadas na ultima tentativa do quizz
+    questionsAnswered = []; correctAnswers = [];
+    numberOfQuestionsInQuizz = 0; resultsLevel = 0;
+}
+
+function cleanQuizzHeader() {
+    const quizzHeader = document.querySelector('.quizzHeader');
+
+    quizzHeader.querySelector('img').src = '#';
+    quizzHeader.querySelector('h1').innerHTML = '';
+}
+
+function forgetSelectedQuizz() {
+    cleanScreen2Variables();
+    selectedQuizz = undefined;
+}
 
 /* Função utilizada para montar o quizz específico pego da API */
 function assembleSelectedQuizzPage(quizz) {
@@ -71,7 +124,7 @@ function changeQuizzQuestions() {
 
         let quizzAnswers = selectedQuizz.questions[question].answers;
 
-        sortQuizzAnswers(quizzAnswers);
+        sortArray(quizzAnswers);
         
         quizzQuestions.innerHTML += `
             <section class="quizzQuestion">
@@ -87,32 +140,34 @@ function changeQuizzQuestions() {
                 `;
     }
 
+    setTimeout(() => {
+        toggleLoader(); toggleScreen2();
+    }, 500);
+
     buildRightAnswersArray();
     addSelectionLogicToQuestions();
-    toggleLoader(); 
-    toggleScreen2();
     changeQuestionsHeadersColors();
 }
 
-/* Embaralha as repostas dos Quizzes */
-function sortQuizzAnswers(quizzAnswers) {
+/* Embaralha o array colocado como argumento */
+function sortArray(arrayToSort) {
     
-    let tempQuizzAnswers = quizzAnswers.slice()
+    let tempArray = arrayToSort.slice()
     const originalIndexes = [];
 
-    /*Cria um array que vai de 1 até a quantidade de respostas */
-    for(let answerIndex in quizzAnswers) {
-        originalIndexes.push(answerIndex)
+    /*Cria um array de índices*/
+    for(let i in arrayToSort) {
+        originalIndexes.push(i)
     }
     
-    /*Cria um array embaralho a partir do array anterior */
+    /*Cria um array de índices embaralhados a partir do array anterior */
     const sortedIndexes = originalIndexes.sort((a,b) => {
         return Math.random() - 0.5
     })
 
     /*Modifica o array original embaralhando-o*/
-    for(let answerIndex in quizzAnswers) {
-        quizzAnswers[answerIndex] = tempQuizzAnswers[sortedIndexes[answerIndex]]
+    for(let i in arrayToSort) {
+        arrayToSort[i] = tempArray[sortedIndexes[i]]
     }    
 }
 
@@ -157,28 +212,20 @@ function addSelectionLogicToQuestions() {
 
     // Percorre todos os elementos da página com a classe de opção de resposta
     document.querySelectorAll('.quizzQuestionOption').forEach((question) => {
-    
         // Adiciona um event listener em todas as opçoes de resposta
         question.addEventListener('click', () => {
-
-            const currentQuestionDiv = question.parentNode;
-
-            /* Verifica se a pergunta da resposta selecionada já
-            foi respondida, neste caso é dado um return de forma
-            a não permitir alterações na resposta */
-            if(questionsAnswered.includes(currentQuestionDiv)) {
+            const quizzAnswersDiv = question.parentNode;
+            /* Verifica se a pergunta da resposta selecionada já foi respondida, neste 
+            caso é dado um return de forma a não permitir alterações na resposta */
+            if(questionsAnswered.includes(quizzAnswersDiv)) {
                 return;
             }
-
             // array contendo todas as divs das opções de resposta da pergunta selecionada
-            const listOfQuestions = Array.from(currentQuestionDiv.querySelectorAll('.quizzQuestionOption'));
-
+            const listOfQuestions = Array.from(quizzAnswersDiv.querySelectorAll('.quizzQuestionOption'));
             // For usado para percorre item a item da lista
             for(let questionIndex in listOfQuestions) {
-
                 // Seleciona a div de fundo transparente do elemento atual
                 const transpBack = listOfQuestions[questionIndex].childNodes[1].querySelector('.quizzQuestionOptionBackground');
-                
                 // Lógica de seleção da opção
                 transpBack.classList.add('hideElement');
                 if(listOfQuestions[questionIndex] !== question) {
@@ -186,12 +233,14 @@ function addSelectionLogicToQuestions() {
                 }
             }
             // Adiciona a pergunta ao array de perguntas respondidas
-            questionsAnswered.push(currentQuestionDiv);
+            questionsAnswered.push(quizzAnswersDiv);
 
-            changeAnswersTextColor(currentQuestionDiv);
+            changeAnswersTextColor(quizzAnswersDiv);
 
             if(checkGameOver()) {
                 changeQuizzResults(); // Monta os resultados do quizz
+            } else {
+                scrollToNextQuestion(quizzAnswersDiv);
             }
         })
     });    
@@ -202,9 +251,7 @@ function changeQuizzResults() {
     const quizzResults = document.querySelector('.quizzResults');
     const quizzResultsHTML = []; 
     const levelsMinValue = [];
-
     const userScore = getUserQuizzScore();
-
 
     /*Cria todas as variações de div de resultado possíveis */
     selectedQuizz.levels.forEach((level, index) => {
@@ -235,7 +282,11 @@ function changeQuizzResults() {
 
     // Adiciona o template correto de div de resultado dependendo do número de acertos do usuario
     quizzResults.innerHTML = quizzResultsHTML[levelsMinValue.indexOf(resultsLevel)];
-    quizzResults.classList.remove('hideElement')
+    quizzResults.classList.remove('hideElement');
+
+    setTimeout(() => {
+        quizzResults.scrollIntoView({behavior: "smooth", block: "center"});
+    },1000);
 }
 
 // Cálcula a quantidade de acertos do usario, retorna este valor em porcentagem
@@ -255,11 +306,14 @@ function getUserQuizzScore() {
         }
     })
 
-    return (numberOfHits/(correctAnswers.length))*100
+    return ((numberOfHits/(correctAnswers.length))*100).toFixed(0)
 }
 
 function changeQuestionsHeadersColors() {
-    const colors = ['#434CA0', '#A0438D', "#2d702e"];
+    const colors = ['#434CA0', '#A0438D', "#2D702E"];
+    
+    sortArray(colors);
+
     let colorCounter = 0;
     const questionsHeaders =  Array.from(document.querySelectorAll('.quizzQuestionHeader'));
     
@@ -299,10 +353,34 @@ function changeAnswerTextToRed(answer) {
 }
 
 function checkGameOver() {
-    if(questionsAnswered.length === numberOfQuestionsInQuizz ) {
+    if(questionsAnswered.length === numberOfQuestionsInQuizz) {
         return true;
     }
     return false;
+}
+
+function scrollToNextQuestion(quizzAnswersDiv) {
+
+    let nextQuestionToScroll;
+    let pointerToScroll = false;
+
+    const currentQuestionDiv = quizzAnswersDiv.parentNode
+
+    const quizzQuestions = document.querySelectorAll('.quizzQuestion');
+
+    for(let question in quizzQuestions) {
+        if(pointerToScroll) {
+            nextQuestionToScroll = quizzQuestions[question];
+            break;
+        }
+        if(currentQuestionDiv == quizzQuestions[question]) {
+            pointerToScroll = true;
+        }
+    }
+
+    setTimeout(() => {
+        nextQuestionToScroll.scrollIntoView({behavior: "smooth", block: "center"});
+    },1000);
 }
 /* FIM JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
 
