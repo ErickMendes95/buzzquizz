@@ -107,9 +107,21 @@ main {
 
 .myQuizzFull {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    height: 100%;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
+}
+
+.myQuizzFull div:nth-child(1){
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.myQuizzFull ion-icon {
+    font-size: 32px;
+    color: red;
 }
 
 .grayText {
