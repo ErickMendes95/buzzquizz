@@ -389,10 +389,12 @@ let quizzTitle = "";
 let quizzImage = "";
 let quizzNumberQuestions = 0;
 let quizzNumberLevels = 0;
-let containerInformations = document.querySelector('.quizzInformation');
-let containerQuestions = document.querySelector('.quizzQuestionsForm');
-let containerLevels = document.querySelector('.quizzLevels');
+const containerInformations = document.querySelector('.quizzInformation');
+const containerQuestions = document.querySelector('.quizzQuestionsForm');
+const containerLevels = document.querySelector('.quizzLevels');
+const containerQuizzSucces = document.querySelector('.quizzSuccess');
 let completeQuizz = {title:"",image:"",questions:[],levels:[]};
+let userQuizz = [];
 
 
 function saveInformations(){
@@ -416,7 +418,7 @@ function insertQuestionFields(){
     containerQuestions.classList.remove("hidden");
     for(let i=1; i<=quizzNumberQuestions; i++){
         containerQuestions.innerHTML += 
-        `<div class="forms question${i}">
+        `<div class="hidden qf forms question${i}">
         <form action="formInformation">
             <h1 class="subtitleForm">Pergunta ${i}</h1>
             <input type="text" class="textQuestion${i}" placeholder="Texto da pergunta">
@@ -434,20 +436,33 @@ function insertQuestionFields(){
             <input type="text" class="incorrectAnswerQuestion3${i}" placeholder="Resposta incorreta 3">
             <input type="url" class="imageIncorrectAnswerQuestion3${i}" placeholder="URL da imagem 3">
         </form>
-    </div>`
+        </div>
+        <div class="dq question ${i}">
+            <h1 class="subtitleForm">Pergunta ${i}</h1>
+            <ion-icon name="create-outline" onclick="openQuestionField(this)"></ion-icon>
+        </div>`
     }
     containerQuestions.innerHTML+= `
-    <div class="question02">
-        <h1 class="subtitleForm">Pergunta 2</h1>
-        <ion-icon name="create-outline"></ion-icon>
-    </div>
-    <div class="question03">
-        <h1 class="subtitleForm">Pergunta 3</h1>
-        <ion-icon name="create-outline"></ion-icon>
-    </div>
     <button class="buttonForm" onclick="saveQuestions()">Prosseguir pra criar níveis</button>
-</section>`
+    `
 }
+function openQuestionField(question){
+    let classes = [];
+    const parent = question.parentNode;
+    classes = parent.classList;
+    let questionFields = document.querySelectorAll(".qf");
+    let divsFields = document.querySelectorAll(".dq")
+    for(let i=0;i<questionFields.length;i++){
+        questionFields[i].classList.add("hidden");
+    }
+    for(let i=0;i<divsFields.length;i++){
+        divsFields[i].classList.remove("hidden");
+    }
+    let questionForm = document.querySelector(`.question${classes[2]}`);
+    parent.classList.add("hidden");
+    questionForm.classList.remove("hidden");
+}
+
 function saveQuestions(){
     let cont=0;
     for(let i=1; i<=quizzNumberQuestions; i++){
@@ -505,7 +520,7 @@ function insertLevelsFields(){
     containerLevels.classList.remove("hidden");
     for(let i=1; i<=quizzNumberLevels; i++){
         containerLevels.innerHTML += 
-        `<div class="forms level${i}">
+        `<div class="hidden forms ql level${i}">
         <form action="formInformation">
             <h1 class="subtitleForm">Nível ${i}</h1>
             <input type="text" class="titleLevel${i}" placeholder="Título do nível">
@@ -513,33 +528,46 @@ function insertLevelsFields(){
             <input type="url" class="imageLevel${i}" placeholder="URL da imagem do nível">
             <input type="text" class="descriptionLevel${i}" placeholder="Descrição do nível">
         </form>
+    </div>
+        <div class="dl level ${i}">
+        <h1 class="subtitleForm">Nível ${i}</h1>
+        <ion-icon name="create-outline" onclick="openLevelField(this)"></ion-icon>
     </div>`
     }
     containerLevels.innerHTML+= `
-    <div class="level02">
-        <h1 class="subtitleForm">Nível 2</h1>
-        <ion-icon name="create-outline"></ion-icon>
-    </div>
-    <div class="level03">
-        <h1 class="subtitleForm">Nível 3</h1>
-        <ion-icon name="create-outline"></ion-icon>
-    </div>
     <button class="buttonForm" onclick="saveLevels()">Finalizar Quizz</button>`
+}
+
+function openLevelField(level){
+    let classes = [];
+    const parent = level.parentNode;
+    classes = parent.classList;
+    let levelFields = document.querySelectorAll(".ql");
+    let divsLevelFields = document.querySelectorAll(".dl")
+    for(let i=0;i<levelFields.length;i++){
+        levelFields[i].classList.add("hidden");
+    }
+    for(let i=0;i<divsLevelFields.length;i++){
+        divsLevelFields[i].classList.remove("hidden");
+    }
+    let levelForm = document.querySelector(`.level${classes[2]}`);
+    parent.classList.add("hidden");
+    levelForm.classList.remove("hidden");
 }
 
 
 function saveLevels(){
     const arrayLevels=[];
     for(let i=1; i<=quizzNumberLevels; i++){
-    let level= {titleLevel:"", minHits:"", imageLevel:"", descriptionLevel:""}
-    level.titleLevel= document.querySelector(`.titleLevel${i}`).value;
-    level.minHits= document.querySelector(`.minHitsLevel${i}`).value;
-    level.imageLevel= document.querySelector(`.imageLevel${i}`).value;
-    level.descriptionLevel= document.querySelector(`.descriptionLevel${i}`).value;
-
-    const url = validateUrl(level.imageLevel);
+    let level= {title:"", image:"", text:"", minValue:""}
+    level.title= document.querySelector(`.titleLevel${i}`).value;
+    level.image= document.querySelector(`.imageLevel${i}`).value;
+    level.text= document.querySelector(`.descriptionLevel${i}`).value;
+    level.minValue= document.querySelector(`.minHitsLevel${i}`).value;
+  
+    const url = validateUrl(level.image);
     
-    if( !url || (level.titleLevel).length<10 || (level.descriptionLevel).length<30 || level.minHits<0 || level.minHits>100){
+    if( !url || (level.title).length<10 || (level.text).length<30 || level.minValue<0 || level.minValue>100){
         alert("errado");
         return;
     }
@@ -549,7 +577,7 @@ function saveLevels(){
 }
 let minHit0 = 0;
 for(let i=0; i<arrayLevels.length;i++){
-    if(arrayLevels[i].minHits==0) minHit0++;
+    if(arrayLevels[i].minValue==0) minHit0++;
 }
 if(minHit0>0){
     for(let i=0; i<arrayLevels.length;i++)
@@ -558,10 +586,36 @@ if(minHit0>0){
     alert("min hit errado");
     return;
 }
-console.log(completeQuizz);
+sendQuizz();
 }
 
+function sendQuizz(){
+    const promise = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes',completeQuizz);
+    promise.then(saveId,promise);
+}
 
+function saveId(promise){
+    let idSuccess = promise.data.id;
+    let imageSuccess = promise.data.image;
+    let titleSuccess = promise.data.title;
+    userQuizz.push(idSuccess);
+    const userQuizzJSON = JSON.stringify(userQuizz);
+    localStorage.setItem("ids", userQuizzJSON);
+    successQuizz(imageSuccess,titleSuccess);
+}
+
+function successQuizz(image,title){
+    containerLevels.classList.add("hidden");
+    containerQuizzSucces.classList.remove("hidden");
+    containerQuizzSucces.innerHTML+=`
+    <div class="finalQuizz">
+        <img class="imgfinal" src="${image}">
+        <div class="titlefinal">${title}</div>
+    </div>
+    <button class="buttonForm buttonFinal" onclick="accessQuizz()">Acessar Quizz</button>
+    <h2 class="backHome" onclick="home()">Voltar pra home</h2>
+    `
+}
 
 function accessQuizz(){
 
