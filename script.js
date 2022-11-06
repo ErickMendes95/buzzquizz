@@ -392,14 +392,8 @@ function changeAnswerTextToRed(answer) {
 
 function checkGameOver() {
     if(questionsAnswered.length === numberOfQuestionsInQuizz) {
-        console.log(questionsAnswered.length);
-        console.log(numberOfQuestionsInQuizz);
-        console.log(true);
         return true;
     }
-    console.log(questionsAnswered.length);
-    console.log(numberOfQuestionsInQuizz);
-    console.log(false);
     return false;
 }
 
@@ -421,8 +415,6 @@ function scrollToNextQuestion(quizzAnswersDiv) {
             pointerToScroll = true;
         }
     }
-
-    console.log(nextQuestionToScroll);
 
     setTimeout(() => {
         nextQuestionToScroll.scrollIntoView({behavior: "smooth", block: "center"});
