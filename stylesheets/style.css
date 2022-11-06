@@ -234,7 +234,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #FFFFFF;
+    background-color: var(--bodyBackgroundColor);
     height: calc(100vh - var(--headerHeight));
     margin-top: var(--headerHeight);
 }
@@ -439,6 +439,13 @@ main {
 
 .quizzFinalButtons button.returnHome p {
     color: #818181;
+}
+
+
+.returnh{
+    font-size: var(--fontSizeMobile);
+    color: #818181;
+    cursor: pointer;
 }
 
 .hideElement {

@@ -429,37 +429,46 @@ let quizzTitle = "";
 let quizzImage = "";
 let quizzNumberQuestions = 0;
 let quizzNumberLevels = 0;
-const containerInformations = document.querySelector('.quizzInformation');
-const containerQuestions = document.querySelector('.quizzQuestionsForm');
-const containerLevels = document.querySelector('.quizzLevels');
-const containerQuizzSucces = document.querySelector('.quizzSuccess');
-let completeQuizz = {title:"",image:"",questions:[],levels:[]};
+const containerInformations = document.querySelector(".quizzInformation");
+const containerQuestions = document.querySelector(".quizzQuestionsForm");
+const containerLevels = document.querySelector(".quizzLevels");
+const containerQuizzSucces = document.querySelector(".quizzSuccess");
+let completeQuizz = { title: "", image: "", questions: [], levels: [] };
 let userQuizz = [];
 let idSuccess = "";
 
-
-function saveInformations(){
-    quizzTitle = document.querySelector(".quizzTitle").value;
-    quizzNumberQuestions = document.querySelector(".quizzNumberQuestions").value;
-    quizzNumberLevels = document.querySelector(".quizzNumberLevels").value;
-    quizzImage = document.querySelector(".quizzImage").value;
-    if(quizzTitle.length<20 || quizzTitle.length>65 || !validateUrl(quizzImage,null,null,null) || quizzNumberQuestions<3 || quizzNumberLevels<2){
-        alert("Há um problema nas informações digitadas, por favor, revise os parâmetros");
-    }
-    else{
-        completeQuizz.title = quizzTitle;
-        completeQuizz.image = quizzImage;
-        containerInformations.classList.add("hidden");
-        insertQuestionFields();
-    }
-    
+/* Esta função resgata as informações básicas inseridas pelo usuário e realiza a validação delas,
+caso tudo esteja correto, a função que insere os campos de perguntas é chamada, caso contrário,
+um alerta informando que há um erro nas informações é emitido */
+function saveInformations() {
+  quizzTitle = document.querySelector(".quizzTitle").value;
+  quizzNumberQuestions = document.querySelector(".quizzNumberQuestions").value;
+  quizzNumberLevels = document.querySelector(".quizzNumberLevels").value;
+  quizzImage = document.querySelector(".quizzImage").value;
+  if (
+    quizzTitle.length < 20 ||
+    quizzTitle.length > 65 ||
+    !validateUrl(quizzImage, null, null, null) ||
+    quizzNumberQuestions < 3 ||
+    quizzNumberLevels < 2
+  ) {
+    alert(
+      "Há um problema nas informações digitadas, por favor, revise os parâmetros"
+    );
+  } else {
+    completeQuizz.title = quizzTitle;
+    completeQuizz.image = quizzImage;
+    containerInformations.classList.add("hidden");
+    insertQuestionFields();
+  }
 }
 
-function insertQuestionFields(){
-    containerQuestions.classList.remove("hidden");
-    for(let i=1; i<=quizzNumberQuestions; i++){
-        containerQuestions.innerHTML += 
-        `<div class="hidden qf forms question${i}">
+/*Esta função insere os campos onde são digitadas cada pergunta de um quizz, a quantidade de 
+campos inseridos é aquela digitada pelo usuário na tela de informações básicas do quizz*/
+function insertQuestionFields() {
+  containerQuestions.classList.remove("hidden");
+  for (let i = 1; i <= quizzNumberQuestions; i++) {
+    containerQuestions.innerHTML += `<div class="hidden qf forms question${i}">
         <form action="formInformation">
             <h1 class="subtitleForm">Pergunta ${i}</h1>
             <input type="text" class="textQuestion${i}" placeholder="Texto da pergunta">
@@ -481,85 +490,115 @@ function insertQuestionFields(){
         <div class="dq question ${i}">
             <h1 class="subtitleForm">Pergunta ${i}</h1>
             <ion-icon name="create-outline" onclick="openQuestionField(this)"></ion-icon>
-        </div>`
-    }
-    containerQuestions.innerHTML+= `
+        </div>`;
+  }
+  containerQuestions.innerHTML += `
     <button class="buttonForm" onclick="saveQuestions()">Prosseguir pra criar níveis</button>
-    `
-}
-function openQuestionField(question){
-    let classes = [];
-    const parent = question.parentNode;
-    classes = parent.classList;
-    let questionFields = document.querySelectorAll(".qf");
-    let divsFields = document.querySelectorAll(".dq")
-    for(let i=0;i<questionFields.length;i++){
-        questionFields[i].classList.add("hidden");
-    }
-    for(let i=0;i<divsFields.length;i++){
-        divsFields[i].classList.remove("hidden");
-    }
-    let questionForm = document.querySelector(`.question${classes[2]}`);
-    parent.classList.add("hidden");
-    questionForm.classList.remove("hidden");
+    `;
 }
 
-function saveQuestions(){
-    let cont=0;
-    for(let i=1; i<=quizzNumberQuestions; i++){
-        let question= {title:"", color:"", answers:[ans1={text:"",image:"",isCorrectAnswer:true},ans2={text:"",image:"",isCorrectAnswer:false},
-        ans3={text:"",image:"",isCorrectAnswer:false},ans4={text:"",image:"",isCorrectAnswer:false}]}
-        question.title= document.querySelector(`.textQuestion${i}`).value;
-        question.color= document.querySelector(`.backgroundQuestion${i}`).value;
-        ans1.text= document.querySelector(`.correctAnswerQuestion${i}`).value;
-        ans2.text= document.querySelector(`.incorrectAnswerQuestion1${i}`).value;
-        ans3.text= document.querySelector(`.incorrectAnswerQuestion2${i}`).value;
-        ans4.text= document.querySelector(`.incorrectAnswerQuestion3${i}`).value;
-        ans1.image= document.querySelector(`.imageCorrectAnswerQuestion${i}`).value;
-        ans2.image= document.querySelector(`.imageIncorrectAnswerQuestion1${i}`).value;
-        ans3.image= document.querySelector(`.imageIncorrectAnswerQuestion2${i}`).value;
-        ans4.image= document.querySelector(`.imageIncorrectAnswerQuestion3${i}`).value;
-        
-        const url1 = validateUrl(ans1.image);
-        const url2 = validateUrl(ans2.image);
-        const url3 = validateUrl(ans3.image);
-        const url4 = validateUrl(ans4.image);
-
-        if( !url1 || (!url2 && !url3 && !url4) || (question.title).length<20 || (ans1.text).length<20 || (!validateColor(question.color)) ||
-        (ans2.text=="" && ans3.text=="" && ans4.text=="")){
-            alert("Há um problema nas informações digitadas, por favor, revise os parâmetros");
-            cont--;
-            return;
-        }
-        else{
-            if(ans2.text=="" || !url2) question.answers[1]=null
-            if(ans3.text=="" || !url3) question.answers[2]=null
-            if(ans4.text=="" || !url4) question.answers[3]=null
-        }
-
-        let index = question.answers.indexOf(null);
-        while(index>=0){
-            question.answers.splice(index,1);
-            index = question.answers.indexOf(null);
-        }
-        completeQuizz.questions.push(question);
-        cont++;
-    }
-
-    if(cont==quizzNumberQuestions){
-        containerQuestions.classList.add("hidden");
-        insertLevelsFields();
-    }
-    else
-        alert("Há um problema nas informações digitadas, por favor, revise os parâmetros");
+/*Esta função faz com que o formulário de uma pergunta seja aberto quando o usuário clica no 
+icone de "editar" em uma das divs de pergunta*/
+function openQuestionField(question) {
+  let classes = [];
+  const parent = question.parentNode;
+  classes = parent.classList;
+  let questionFields = document.querySelectorAll(".qf");
+  let divsFields = document.querySelectorAll(".dq");
+  for (let i = 0; i < questionFields.length; i++) {
+    questionFields[i].classList.add("hidden");
+  }
+  for (let i = 0; i < divsFields.length; i++) {
+    divsFields[i].classList.remove("hidden");
+  }
+  let questionForm = document.querySelector(`.question${classes[2]}`);
+  parent.classList.add("hidden");
+  questionForm.classList.remove("hidden");
 }
 
+/* Esta função resgata as informações das perguntas inseridas pelo usuário e realiza a validação delas,
+caso tudo esteja correto, a função que insere os campos de níveis é chamada, caso contrário,
+um alerta informando que há um erro nas informações é emitido */
+function saveQuestions() {
+  let cont = 0;
+  for (let i = 1; i <= quizzNumberQuestions; i++) {
+    let question = {
+      title: "",
+      color: "",
+      answers: [
+        (ans1 = { text: "", image: "", isCorrectAnswer: true }),
+        (ans2 = { text: "", image: "", isCorrectAnswer: false }),
+        (ans3 = { text: "", image: "", isCorrectAnswer: false }),
+        (ans4 = { text: "", image: "", isCorrectAnswer: false }),
+      ],
+    };
+    question.title = document.querySelector(`.textQuestion${i}`).value;
+    question.color = document.querySelector(`.backgroundQuestion${i}`).value;
+    ans1.text = document.querySelector(`.correctAnswerQuestion${i}`).value;
+    ans2.text = document.querySelector(`.incorrectAnswerQuestion1${i}`).value;
+    ans3.text = document.querySelector(`.incorrectAnswerQuestion2${i}`).value;
+    ans4.text = document.querySelector(`.incorrectAnswerQuestion3${i}`).value;
+    ans1.image = document.querySelector(
+      `.imageCorrectAnswerQuestion${i}`
+    ).value;
+    ans2.image = document.querySelector(
+      `.imageIncorrectAnswerQuestion1${i}`
+    ).value;
+    ans3.image = document.querySelector(
+      `.imageIncorrectAnswerQuestion2${i}`
+    ).value;
+    ans4.image = document.querySelector(
+      `.imageIncorrectAnswerQuestion3${i}`
+    ).value;
 
-function insertLevelsFields(){
-    containerLevels.classList.remove("hidden");
-    for(let i=1; i<=quizzNumberLevels; i++){
-        containerLevels.innerHTML += 
-        `<div class="hidden forms ql level${i}">
+    const url1 = validateUrl(ans1.image);
+    const url2 = validateUrl(ans2.image);
+    const url3 = validateUrl(ans3.image);
+    const url4 = validateUrl(ans4.image);
+
+    if (
+      !url1 ||
+      (!url2 && !url3 && !url4) ||
+      question.title.length < 20 ||
+      ans1.text.length < 20 ||
+      !validateColor(question.color) ||
+      (ans2.text == "" && ans3.text == "" && ans4.text == "")
+    ) {
+      alert(
+        "Há um problema nas informações digitadas, por favor, revise os parâmetros"
+      );
+      cont--;
+      return;
+    } else {
+      if (ans2.text == "" || !url2) question.answers[1] = null;
+      if (ans3.text == "" || !url3) question.answers[2] = null;
+      if (ans4.text == "" || !url4) question.answers[3] = null;
+    }
+
+    let index = question.answers.indexOf(null);
+    while (index >= 0) {
+      question.answers.splice(index, 1);
+      index = question.answers.indexOf(null);
+    }
+    completeQuizz.questions.push(question);
+    cont++;
+  }
+
+  if (cont == quizzNumberQuestions) {
+    containerQuestions.classList.add("hidden");
+    insertLevelsFields();
+  } else
+    alert(
+      "Há um problema nas informações digitadas, por favor, revise os parâmetros"
+    );
+}
+
+/*Esta função insere os campos onde são digitados cada nível de um quizz, a quantidade de 
+campos inseridos é aquela digitada pelo usuário na tela de informações básicas do quizz*/
+function insertLevelsFields() {
+  containerLevels.classList.remove("hidden");
+  for (let i = 1; i <= quizzNumberLevels; i++) {
+    containerLevels.innerHTML += `<div class="hidden forms ql level${i}">
         <form action="formInformation">
             <h1 class="subtitleForm">Nível ${i}</h1>
             <input type="text" class="titleLevel${i}" placeholder="Título do nível">
@@ -571,112 +610,170 @@ function insertLevelsFields(){
         <div class="dl level ${i}">
         <h1 class="subtitleForm">Nível ${i}</h1>
         <ion-icon name="create-outline" onclick="openLevelField(this)"></ion-icon>
-    </div>`
-    }
-    containerLevels.innerHTML+= `
-    <button class="buttonForm" onclick="saveLevels()">Finalizar Quizz</button>`
+    </div>`;
+  }
+  containerLevels.innerHTML += `
+    <button class="buttonForm" onclick="saveLevels()">Finalizar Quizz</button>`;
 }
 
-function openLevelField(level){
-    let classes = [];
-    const parent = level.parentNode;
-    classes = parent.classList;
-    let levelFields = document.querySelectorAll(".ql");
-    let divsLevelFields = document.querySelectorAll(".dl")
-    for(let i=0;i<levelFields.length;i++){
-        levelFields[i].classList.add("hidden");
-    }
-    for(let i=0;i<divsLevelFields.length;i++){
-        divsLevelFields[i].classList.remove("hidden");
-    }
-    let levelForm = document.querySelector(`.level${classes[2]}`);
-    parent.classList.add("hidden");
-    levelForm.classList.remove("hidden");
+/*Esta função faz com que o formulário de um nível seja aberto quando o usuário clica no 
+icone de "editar" em uma das divs de nível*/
+function openLevelField(level) {
+  let classes = [];
+  const parent = level.parentNode;
+  classes = parent.classList;
+  let levelFields = document.querySelectorAll(".ql");
+  let divsLevelFields = document.querySelectorAll(".dl");
+  for (let i = 0; i < levelFields.length; i++) {
+    levelFields[i].classList.add("hidden");
+  }
+  for (let i = 0; i < divsLevelFields.length; i++) {
+    divsLevelFields[i].classList.remove("hidden");
+  }
+  let levelForm = document.querySelector(`.level${classes[2]}`);
+  parent.classList.add("hidden");
+  levelForm.classList.remove("hidden");
 }
 
+/* Esta função resgata as informações dos níveis inseridas pelo usuário e realiza a validação delas,
+caso tudo esteja correto, a função que realiza o envio do quizz para o servidor é chamada, caso contrário,
+um alerta informando que há um erro nas informações é emitido */
+function saveLevels() {
+  const arrayLevels = [];
+  for (let i = 1; i <= quizzNumberLevels; i++) {
+    let level = { title: "", image: "", text: "", minValue: "" };
+    level.title = document.querySelector(`.titleLevel${i}`).value;
+    level.image = document.querySelector(`.imageLevel${i}`).value;
+    level.text = document.querySelector(`.descriptionLevel${i}`).value;
+    level.minValue = document.querySelector(`.minHitsLevel${i}`).value;
 
-function saveLevels(){
-    const arrayLevels=[];
-    for(let i=1; i<=quizzNumberLevels; i++){
-    let level= {title:"", image:"", text:"", minValue:""}
-    level.title= document.querySelector(`.titleLevel${i}`).value;
-    level.image= document.querySelector(`.imageLevel${i}`).value;
-    level.text= document.querySelector(`.descriptionLevel${i}`).value;
-    level.minValue= document.querySelector(`.minHitsLevel${i}`).value;
-  
     const url = validateUrl(level.image);
-    
-    if( !url || (level.title).length<10 || (level.text).length<30 || level.minValue<0 || level.minValue=="" || !level.minValue || level.minValue>100){
-        alert("Há um problema nas informações digitadas, por favor, revise os parâmetros");
-        return;
+
+    if (
+      !url ||
+      level.title.length < 10 ||
+      level.text.length < 30 ||
+      level.minValue < 0 ||
+      level.minValue == "" ||
+      !level.minValue ||
+      level.minValue > 100
+    ) {
+      alert(
+        "Há um problema nas informações digitadas, por favor, revise os parâmetros"
+      );
+      return;
+    } else {
+      arrayLevels.push(level);
     }
-    else{
-        arrayLevels.push(level);
-    }
-}
-let minHit0 = 0;
-for(let i=0; i<arrayLevels.length;i++){
-    if(arrayLevels[i].minValue==0) minHit0++;
-}
-if(minHit0>0){
-    for(let i=0; i<arrayLevels.length;i++)
-        completeQuizz.levels.push(arrayLevels[i]);
-}else{
-    alert("Há um problema nas informações digitadas, por favor, revise os parâmetros");
+  }
+  let minHit0 = 0;
+  for (let i = 0; i < arrayLevels.length; i++) {
+    if (arrayLevels[i].minValue == 0) minHit0++;
+  }
+  if (minHit0 > 0) {
+    for (let i = 0; i < arrayLevels.length; i++)
+      completeQuizz.levels.push(arrayLevels[i]);
+  } else {
+    alert(
+      "Há um problema nas informações digitadas, por favor, revise os parâmetros"
+    );
     return;
-}
-sendQuizz();
-}
-
-function sendQuizz(){
-    const promise = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes',completeQuizz);
-    containerLevels.classList.add("hidden");
-    toggleLoader();
-    promise.then(saveId,promise);
+  }
+  sendQuizz();
 }
 
-function saveId(promise){
-    idSuccess = promise.data.id;
-    let imageSuccess = promise.data.image;
-    let titleSuccess = promise.data.title;
-    userQuizz.push(idSuccess);
-    const userQuizzJSON = JSON.stringify(userQuizz);
-    localStorage.setItem("ids", userQuizzJSON);
-    successQuizz(imageSuccess,titleSuccess);
+/*Esta funnção realiza o post do quizz por meio da API. Quando a operação for confirmada, a função que 
+realiza o salvamente do id do quizz criado é chamada, enquanto isso, um loader fica na tela*/
+function sendQuizz() {
+  const promise = axios.post(
+    "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes",
+    completeQuizz
+  );
+  containerLevels.classList.add("hidden");
+  toggleLoader();
+  promise.then(saveId, promise);
 }
 
-function successQuizz(image,title){
-    containerLevels.classList.add("hidden");
-    containerQuizzSucces.classList.remove("hidden");
-    containerQuizzSucces.innerHTML+=`
+/*Esta função recupera algumas das informações passadas pelo servidor no momento do post do quizz,
+entre elas o id, que é salvo em um array no local storage e pode ser acessado mais tarde para
+verificar se o usuário possui algum quizz criado*/
+function saveId(promise) {
+  const listSerie = localStorage.getItem("ids");
+  const list = JSON.parse(listSerie);
+  for (let i = 0; i < list.length; i++) {
+    userQuizz.push(list[i]);
+  }
+  idSuccess = promise.data.id;
+  let imageSuccess = promise.data.image;
+  let titleSuccess = promise.data.title;
+  userQuizz.push(idSuccess);
+  const userQuizzJSON = JSON.stringify(userQuizz);
+  localStorage.setItem("ids", userQuizzJSON);
+  successQuizz(imageSuccess, titleSuccess);
+}
+
+/*Esta função mostra a tela de sucesso do quizz, com a imagem do quiz que acabou de ser criado
+e um botão para acessá-lo ou voltar para home*/
+function successQuizz(image, title) {
+  containerLevels.classList.add("hidden");
+  containerQuizzSucces.classList.remove("hidden");
+  containerQuizzSucces.innerHTML += `
     <div class="finalQuizz">
         <img class="imgfinal" src="${image}">
         <div class="titlefinal">${title}</div>
     </div>
     <button class="buttonForm buttonFinal" onclick="accessQuizz()">Acessar Quizz</button>
-    <h2 class="returnHome">Voltar pra home</h2>
-    `
+    <p class="returnh" onclick="returnHome()">Voltar pra home</p>
+    `;
 }
 
-function accessQuizz(){
-    containerQuizzSucces.classList.add("hidden");
-    getSelectedQuizz(idSuccess);
+/*Esta função faz com que o usuário seja redirecionado para a home*/
+function returnHome() {
+  containerQuizzSucces.classList.add("hidden");
+  toggleScreen1();
+}
+
+/*Esta função faz com que o quizz que acabou de ser criado seja acessado*/
+function accessQuizz() {
+  containerQuizzSucces.classList.add("hidden");
+  getSelectedQuizz(idSuccess);
+}
+
+/*Esta função realiza a validação da string digitada pelo usuário para um cor, para retornar true
+é necessário que a string inserida seja iniciada com # e seguida por 16 digitos hexadecimais*/
+function validateColor(code) {
+  const RegExp = /(^#[0-9A-F]{6}$)/i;
+  if (RegExp.test(code) == true) return true;
+  else return false;
+}
+
+/*Esta função realiza a validação da string digitada pelo usuário para uma URL, para retornar true
+é necessário que um novo objeto da classe URl seja instanciado com sucesso*/
+function validateUrl(str) {
+  try {
+    new URL(str);
+    return true;
+  } catch (err) {
+    return false;
+  }
 }
 
 
-function validateColor(code){
-    const RegExp = /(^#[0-9A-F]{6}$)/i;
-    if(RegExp.test(code)==true)
-        return true;
-    else
-        return false;
-}
+/*protótipo para verificar se um usuário possui quizzes criados*/
+function insereQuizzesDoUsuário(){
+    const idQuizzes = localStorage.getItem("ids");  /*essa linha vai no local storage do usuário e busca
+    pelo identificador "ids" esse identificador foi definido por mim na função saveId, o retorno obtido
+    é um JSON que contem os dados desse identificador*/
 
-function validateUrl(str){
-    try{
-        new URL (str);
-        return true;
-    }catch(err){
-        return false;
-    }
+    const list = JSON.parse(idQuizzes); /*essa linha converte o JSON em um array, nesse array, cada posição
+    corresponde exatamente a um id de quizz criado pelo usuário*/
+    
+    if(list.length>0){ /*se o tamanho da lista convertida é maior que 0 então há pelo menos um quizz 
+    criado pelo usuário, dessa forma, será necessário percorrer este array e renderizar cada um desses
+    id*/
+        renderizaQuizzes(list);
+    }else{
+        /*se o tamanho do array é igual a 0 então o usuário não possui nenhum quizz criado por ele e não 
+        é necessário renderizar*/
+    }     
 }
