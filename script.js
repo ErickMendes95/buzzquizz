@@ -65,19 +65,19 @@ function getSelectedQuizz(quizzId) {
 
 /* Função para exibir e esconder a div do Loader */
 function toggleLoader() {
-    document.querySelector('.screenLoader').classList.toggle('hideElement');
+    document.querySelector('.screenLoader').classList.toggle('hidden');
 }
 
 function toggleScreen1() {
-    document.querySelector('.myQuizz').classList.toggle('hideElement');
-    document.querySelector('.allQuizzes').classList.toggle('hideElement');
+    document.querySelector('.myQuizz').classList.toggle('hidden');
+    document.querySelector('.allQuizzes').classList.toggle('hidden');
 }
 
 /* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
 
 /* Função para exibir e esconder a div da Tela 2 */
 function toggleScreen2() {
-    document.querySelector('.screen2').classList.toggle('hideElement');
+    document.querySelector('.screen2').classList.toggle('hidden');
 }
 
 /*Adiciona funcionabilidade ao botão de restart quizz */
@@ -100,7 +100,7 @@ function lightCleanQuizz() {
     toggleScreen2(); toggleLoader();
     
     quizzQuestions.innerHTML = ''; quizzResults.innerHTML = '';  
-    quizzResults.classList.add('hideElement');
+    quizzResults.classList.add('hidden');
 }
 
 // função utilizada quando queremos retornar para home, também limpa o quizzHeader
@@ -142,7 +142,7 @@ function forgetSelectedQuizz() {
 function assembleSelectedQuizzPage(quizz) {
 
     selectedQuizz = quizz;
-
+    document.querySelector('.screenLoader').classList.toggle('hidden');
     changeQuizzHeader(); // Monta o cabeçalho do quizz
     changeQuizzQuestions(); // Monta todas as perguntas do quizz
 }
@@ -221,7 +221,7 @@ function constructQuizzAnswers(quizzAnswers) {
             quizzQuestionOptionsHTML += `<div class="quizzQuestionOption isCorrectAnswer">
                                                 <figure>
                                                     <img src="${quizzAnswers[i].image}">
-                                                    <div class="quizzQuestionOptionBackground hideElement"></div>
+                                                    <div class="quizzQuestionOptionBackground hidden"></div>
                                                 </figure>
                                                 <p>${quizzAnswers[i].text}</p>
                                         </div>`;    
@@ -229,7 +229,7 @@ function constructQuizzAnswers(quizzAnswers) {
             quizzQuestionOptionsHTML += `<div class="quizzQuestionOption">
                                                 <figure>
                                                     <img src="${quizzAnswers[i].image}">
-                                                    <div class="quizzQuestionOptionBackground hideElement"></div>
+                                                    <div class="quizzQuestionOptionBackground hidden"></div>
                                                 </figure>
                                                 <p>${quizzAnswers[i].text}</p>
                                         </div>`;
@@ -267,9 +267,9 @@ function addSelectionLogicToQuestions() {
                 // Seleciona a div de fundo transparente do elemento atual
                 const transpBack = listOfQuestions[questionIndex].childNodes[1].querySelector('.quizzQuestionOptionBackground');
                 // Lógica de seleção da opção
-                transpBack.classList.add('hideElement');
+                transpBack.classList.add('hidden');
                 if(listOfQuestions[questionIndex] !== question) {
-                    transpBack.classList.toggle('hideElement');
+                    transpBack.classList.toggle('hidden');
                 }
             }
             // Adiciona a pergunta ao array de perguntas respondidas
@@ -322,7 +322,7 @@ function changeQuizzResults() {
 
     // Adiciona o template correto de div de resultado dependendo do número de acertos do usuario
     quizzResults.innerHTML = quizzResultsHTML[levelsMinValue.indexOf(resultsLevel)];
-    quizzResults.classList.remove('hideElement');
+    quizzResults.classList.remove('hidden');
 
     setTimeout(() => {
         quizzResults.scrollIntoView({behavior: "smooth", block: "center"});
@@ -338,7 +338,7 @@ function getUserQuizzScore() {
         if(option.classList.contains('isCorrectAnswer')) {
 
             const optionSelectedIsCorrect = option.querySelector('p').style.color === 'rgb(0, 156, 34)' &&
-                                            option.querySelector('.quizzQuestionOptionBackground').classList.contains('hideElement')
+                                            option.querySelector('.quizzQuestionOptionBackground').classList.contains('hidden')
 
             if(optionSelectedIsCorrect) {
                 numberOfHits++;
@@ -435,6 +435,7 @@ const containerLevels = document.querySelector('.quizzLevels');
 const containerQuizzSucces = document.querySelector('.quizzSuccess');
 let completeQuizz = {title:"",image:"",questions:[],levels:[]};
 let userQuizz = [];
+let idSuccess = "";
 
 
 function saveInformations(){
@@ -443,7 +444,7 @@ function saveInformations(){
     quizzNumberLevels = document.querySelector(".quizzNumberLevels").value;
     quizzImage = document.querySelector(".quizzImage").value;
     if(quizzTitle.length<20 || quizzTitle.length>65 || !validateUrl(quizzImage,null,null,null) || quizzNumberQuestions<3 || quizzNumberLevels<2){
-        alert("Informações erradas")
+        alert("Há um problema nas informações digitadas, por favor, revise os parâmetros");
     }
     else{
         completeQuizz.title = quizzTitle;
@@ -526,7 +527,7 @@ function saveQuestions(){
 
         if( !url1 || (!url2 && !url3 && !url4) || (question.title).length<20 || (ans1.text).length<20 || (!validateColor(question.color)) ||
         (ans2.text=="" && ans3.text=="" && ans4.text=="")){
-            alert("algo errado")
+            alert("Há um problema nas informações digitadas, por favor, revise os parâmetros");
             cont--;
             return;
         }
@@ -545,14 +546,12 @@ function saveQuestions(){
         cont++;
     }
 
-
-   
     if(cont==quizzNumberQuestions){
         containerQuestions.classList.add("hidden");
         insertLevelsFields();
     }
     else
-        alert("falhou");
+        alert("Há um problema nas informações digitadas, por favor, revise os parâmetros");
 }
 
 
@@ -607,8 +606,8 @@ function saveLevels(){
   
     const url = validateUrl(level.image);
     
-    if( !url || (level.title).length<10 || (level.text).length<30 || level.minValue<0 || level.minValue>100){
-        alert("errado");
+    if( !url || (level.title).length<10 || (level.text).length<30 || level.minValue<0 || level.minValue=="" || !level.minValue || level.minValue>100){
+        alert("Há um problema nas informações digitadas, por favor, revise os parâmetros");
         return;
     }
     else{
@@ -623,7 +622,7 @@ if(minHit0>0){
     for(let i=0; i<arrayLevels.length;i++)
         completeQuizz.levels.push(arrayLevels[i]);
 }else{
-    alert("min hit errado");
+    alert("Há um problema nas informações digitadas, por favor, revise os parâmetros");
     return;
 }
 sendQuizz();
@@ -631,11 +630,13 @@ sendQuizz();
 
 function sendQuizz(){
     const promise = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes',completeQuizz);
+    containerLevels.classList.add("hidden");
+    toggleLoader();
     promise.then(saveId,promise);
 }
 
 function saveId(promise){
-    let idSuccess = promise.data.id;
+    idSuccess = promise.data.id;
     let imageSuccess = promise.data.image;
     let titleSuccess = promise.data.title;
     userQuizz.push(idSuccess);
@@ -653,21 +654,18 @@ function successQuizz(image,title){
         <div class="titlefinal">${title}</div>
     </div>
     <button class="buttonForm buttonFinal" onclick="accessQuizz()">Acessar Quizz</button>
-    <h2 class="backHome" onclick="home()">Voltar pra home</h2>
+    <h2 class="returnHome">Voltar pra home</h2>
     `
 }
 
 function accessQuizz(){
-
-}
-
-function home(){
-
+    containerQuizzSucces.classList.add("hidden");
+    getSelectedQuizz(idSuccess);
 }
 
 
 function validateColor(code){
-    const RegExp = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i;
+    const RegExp = /(^#[0-9A-F]{6}$)/i;
     if(RegExp.test(code)==true)
         return true;
     else
