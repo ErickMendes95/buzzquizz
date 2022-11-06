@@ -144,6 +144,8 @@ main {
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 10px;
+    max-height: 105%;
+    overflow-y: auto;
 }
 
 .allQuizzesBox img, .myQuizzFull img {
@@ -157,6 +159,7 @@ main {
 }
 
 .qbox p {
+    word-break: break-word;
     position: absolute;
     background-image: linear-gradient(to top, black, transparent);
     border-radius: 8px;
@@ -164,10 +167,11 @@ main {
     left: 0%;
     width: 100%;
     font-size: 22px;
-    height: 50%;
+    height: 58%;
     color: #FFFFFF;
-    padding-left: 1rem;
+    padding-left: 0.5rem;
     padding-top: 3rem;
+    overflow-y: hidden;
 }
 
 @media (max-width: 1100px) {
@@ -198,8 +202,9 @@ main {
     }
 
     .allQuizzesBox{
+        min-height: 104%;
         flex-direction: column;
-        width: fit-content;
+        flex-wrap: nowrap;
     }
 }
 

@@ -6,12 +6,38 @@ let numberOfQuestionsInQuizz; let selectedQuizz; let resultsLevel;
 function getQuizzes() {
     axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes')
         .then((response) => {
+            renderizarAllQuizzes(response);
             console.log(response.data);
         })
         .catch((error) => {
             console.log(error);
         })
 }
+
+// Função adiciona todos os quizzes ao site + numberID quando clicado //
+
+function renderizarAllQuizzes(response) {
+    console.log(response)
+    const allQuizzescontainer = document.querySelector(".allQuizzesBox");
+    allQuizzescontainer.innerHTML = '';
+
+    for(let i =0; i < response.data.length; i++) {
+        const qbox = document.createElement("div")
+        qbox.setAttribute('id', `${response.data[i].id}`)
+        qbox.classList.add("qbox")
+        qbox.addEventListener("click", function getID(event){
+            var numberID = event.path[1].id;
+        })
+        qbox.innerHTML += `
+        <img src= ${response.data[i].image}>
+        <p>${response.data[i].title}</p>
+        `
+        allQuizzescontainer.appendChild(qbox)
+    }
+}
+
+
+getQuizzes()
 
 /* Função utilizada para pegar um quizz específico da API */
 function getSelectedQuizz(quizzId) {
