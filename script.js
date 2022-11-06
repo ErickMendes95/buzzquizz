@@ -3,13 +3,15 @@ let questionsAnswered = []; let correctAnswers = [];
 let numberOfQuestionsInQuizz; let selectedQuizz; let resultsLevel;
 
 // Inicio do programa
-getQuizzes();
+// getQuizzes();
 
 /* Função utilizada para pegar todos os quizzes da API */
 function getQuizzes() {
+    toggleScreen1(); toggleLoader();
     axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes')
         .then((response) => {
             renderAllQuizzes(response);
+            toggleLoader(); toggleScreen1();
         })
         .catch((error) => {
             console.log(error);
@@ -22,14 +24,11 @@ function renderAllQuizzes(response) {
     const allQuizzescontainer = document.querySelector(".allQuizzesBox");
     allQuizzescontainer.innerHTML = '';
 
-    for(let i =0; i < response.data.length; i++) {
+    for(let i in response.data) {
         const qbox = document.createElement("div");
 
         qbox.setAttribute('id', `${response.data[i].id}`);
         qbox.classList.add("qbox");
-        qbox.addEventListener("click", function getID(event){
-            var numberID = event.path[1].id;
-        });
 
         qbox.innerHTML += `
         <img src= ${response.data[i].image}>
@@ -44,8 +43,7 @@ function renderAllQuizzes(response) {
 function addLogicSelectionToQuizzes() {
     document.querySelectorAll('.qbox').forEach((qbox) => {
         qbox.addEventListener('click', () => {
-            document.querySelector('.myQuizz').classList.add('hideElement');
-            document.querySelector('.allQuizzes').classList.add('hideElement');
+            toggleScreen1();
             getSelectedQuizz((qbox.id));
         });
     });    
@@ -70,6 +68,11 @@ function toggleLoader() {
     document.querySelector('.screenLoader').classList.toggle('hideElement');
 }
 
+function toggleScreen1() {
+    document.querySelector('.myQuizz').classList.toggle('hideElement');
+    document.querySelector('.allQuizzes').classList.toggle('hideElement');
+}
+
 /* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
 
 /* Função para exibir e esconder a div da Tela 2 */
@@ -86,8 +89,7 @@ document.querySelector('.restartQuizz').addEventListener('click', () => {
 /*Adiciona funcionabilidade ao botão de return home */
 document.querySelector('.returnHome').addEventListener('click', () => {
     fullCleanQuizz();
-    document.querySelector('.myQuizz').classList.remove('hideElement');
-    document.querySelector('.allQuizzes').classList.remove('hideElement');
+    toggleScreen1();
 });
 
 // função utilizada previamente ao reinicar do quizz, o quizzHeader nao é limpo
