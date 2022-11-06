@@ -2,12 +2,14 @@
 let questionsAnswered = []; let correctAnswers = [];
 let numberOfQuestionsInQuizz; let selectedQuizz; let resultsLevel;
 
+// Inicio do programa
+getQuizzes();
+
 /* Função utilizada para pegar todos os quizzes da API */
 function getQuizzes() {
     axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes')
         .then((response) => {
-            renderizarAllQuizzes(response);
-            console.log(response.data);
+            renderAllQuizzes(response);
         })
         .catch((error) => {
             console.log(error);
@@ -16,28 +18,38 @@ function getQuizzes() {
 
 // Função adiciona todos os quizzes ao site + numberID quando clicado //
 
-function renderizarAllQuizzes(response) {
-    console.log(response)
+function renderAllQuizzes(response) {
     const allQuizzescontainer = document.querySelector(".allQuizzesBox");
     allQuizzescontainer.innerHTML = '';
 
     for(let i =0; i < response.data.length; i++) {
-        const qbox = document.createElement("div")
-        qbox.setAttribute('id', `${response.data[i].id}`)
-        qbox.classList.add("qbox")
+        const qbox = document.createElement("div");
+
+        qbox.setAttribute('id', `${response.data[i].id}`);
+        qbox.classList.add("qbox");
         qbox.addEventListener("click", function getID(event){
             var numberID = event.path[1].id;
-        })
+        });
+
         qbox.innerHTML += `
         <img src= ${response.data[i].image}>
         <p>${response.data[i].title}</p>
-        `
-        allQuizzescontainer.appendChild(qbox)
+        `;
+        
+        allQuizzescontainer.appendChild(qbox);
     }
+    addLogicSelectionToQuizzes();
 }
 
-
-getQuizzes()
+function addLogicSelectionToQuizzes() {
+    document.querySelectorAll('.qbox').forEach((qbox) => {
+        qbox.addEventListener('click', () => {
+            document.querySelector('.myQuizz').classList.add('hideElement');
+            document.querySelector('.allQuizzes').classList.add('hideElement');
+            getSelectedQuizz((qbox.id));
+        });
+    });    
+}
 
 /* Função utilizada para pegar um quizz específico da API */
 function getSelectedQuizz(quizzId) {
@@ -58,14 +70,12 @@ function toggleLoader() {
     document.querySelector('.screenLoader').classList.toggle('hideElement');
 }
 
+/* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
+
 /* Função para exibir e esconder a div da Tela 2 */
 function toggleScreen2() {
     document.querySelector('.screen2').classList.toggle('hideElement');
 }
-
-/* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
-
-// getSelectedQuizz(16668);
 
 /*Adiciona funcionabilidade ao botão de restart quizz */
 document.querySelector('.restartQuizz').addEventListener('click', () => {
@@ -76,7 +86,8 @@ document.querySelector('.restartQuizz').addEventListener('click', () => {
 /*Adiciona funcionabilidade ao botão de return home */
 document.querySelector('.returnHome').addEventListener('click', () => {
     fullCleanQuizz();
-    // adicionar função para ir para a tela 1 quando estiver pronta
+    document.querySelector('.myQuizz').classList.remove('hideElement');
+    document.querySelector('.allQuizzes').classList.remove('hideElement');
 });
 
 // função utilizada previamente ao reinicar do quizz, o quizzHeader nao é limpo
@@ -92,6 +103,7 @@ function lightCleanQuizz() {
 
 // função utilizada quando queremos retornar para home, também limpa o quizzHeader
 function fullCleanQuizz() {
+    cleanScreen2Variables();
     lightCleanQuizz();
     cleanQuizzHeader();
     setTimeout(toggleLoader, 1000);
@@ -380,8 +392,14 @@ function changeAnswerTextToRed(answer) {
 
 function checkGameOver() {
     if(questionsAnswered.length === numberOfQuestionsInQuizz) {
+        console.log(questionsAnswered.length);
+        console.log(numberOfQuestionsInQuizz);
+        console.log(true);
         return true;
     }
+    console.log(questionsAnswered.length);
+    console.log(numberOfQuestionsInQuizz);
+    console.log(false);
     return false;
 }
 
@@ -403,6 +421,8 @@ function scrollToNextQuestion(quizzAnswersDiv) {
             pointerToScroll = true;
         }
     }
+
+    console.log(nextQuestionToScroll);
 
     setTimeout(() => {
         nextQuestionToScroll.scrollIntoView({behavior: "smooth", block: "center"});
