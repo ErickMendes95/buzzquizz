@@ -288,10 +288,7 @@ document.querySelector('.restartQuizz').addEventListener('click', () => {
 document.querySelector('.returnHome').addEventListener('click', () => {
     fullCleanQuizz();
     toggleScreen2();
-    setTimeout(() => {
-      toggleLoader();
-      toggleScreen1();
-    }, 1000);
+    renderMyQuizzes();
 });
 
 // função utilizada previamente ao reinicar do quizz, o quizzHeader nao é limpo
