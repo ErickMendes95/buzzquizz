@@ -12,11 +12,9 @@ const containerLevels = document.querySelector(".quizzLevels");
 const containerQuizzSucces = document.querySelector(".quizzSuccess");
 let quizzTitle = ""; 
 let quizzImage = ""; 
-let idSuccess = "";
 let quizzNumberQuestions = 0; 
 let quizzNumberLevels = 0;
 let completeQuizz = { title: "", image: "", questions: [], levels: [] };
-let userQuizz = [];
 
 // Inicio do programa
 getQuizzes();
@@ -289,6 +287,7 @@ document.querySelector('.returnHome').addEventListener('click', () => {
     fullCleanQuizz();
     toggleScreen2();
     renderMyQuizzes();
+    clearScreen3Variables();
 });
 
 // função utilizada previamente ao reinicar do quizz, o quizzHeader nao é limpo
@@ -930,19 +929,29 @@ function successQuizz() {
 
       toggleLoader();
       containerQuizzSucces.classList.remove("hidden");
-    
     })
     .catch((error) => {
         console.log(error);
     });
 }
 
+function clearScreen3Variables() {
+  document.querySelector(".quizzTitle").value = ''; 
+  document.querySelector(".quizzNumberQuestions").value = ''; 
+  document.querySelector(".quizzNumberLevels").value = '';
+  document.querySelector(".quizzImage").value = ''; 
+  completeQuizz = { title: "", image: "", questions: [], levels: [] };
+  containerQuestions.innerHTML = "<h1 class='titleForm'>Crie suas perguntas</h1>";
+  containerLevels.innerHTML = "<h1 class='titleForm'>Agora, decida os níveis</h1>";
+  containerQuizzSucces.innerHTML = "<h1 class='titleForm'>Seu quizz está pronto!</h1>";
+}
 
 /*Esta função faz com que o usuário seja redirecionado para a home*/
 function returnHome() {
   toggleLoader();
   containerQuizzSucces.classList.add("hidden");
   renderMyQuizzes();
+  clearScreen3Variables();
 }
 
 /*Esta função faz com que o quizz que acabou de ser criado seja acessado*/
