@@ -1,11 +1,108 @@
 // Variaveis utilizadas na Tela 2
-let questionsAnswered = []; let correctAnswers = [];
-let numberOfQuestionsInQuizz; let selectedQuizz; let resultsLevel;
+let questionsAnswered = []; 
+let correctAnswers = [];
+let numberOfQuestionsInQuizz; 
+let selectedQuizz; 
+let resultsLevel;
+
+// Variaveis utilizadas na Tela 3
+const containerInformations = document.querySelector(".quizzInformation");
+const containerQuestions = document.querySelector(".quizzQuestionsForm");
+const containerLevels = document.querySelector(".quizzLevels");
+const containerQuizzSucces = document.querySelector(".quizzSuccess");
+let quizzTitle = ""; 
+let quizzImage = ""; 
+let idSuccess = "";
+let quizzNumberQuestions = 0; 
+let quizzNumberLevels = 0;
+let completeQuizz = { title: "", image: "", questions: [], levels: [] };
+let userQuizz = [];
 
 // Inicio do programa
 getQuizzes();
 
+//********************************INICIO FUNÇÕES PARA EXIBIÇÃO DE TELAS********************************
+
+/* Função para exibir e esconder a div do Loader */
+function toggleLoader() {
+  loader = document.querySelector('.screenLoader');
+
+  if(loader.classList.contains('hidden')) {
+    console.log('Exibindo Loader');
+  } else {
+    console.log('Escondendo Loader');
+  }
+  loader.classList.toggle('hidden');
+}
+
+/* Função para exibir e esconder o header dos meus quizes*/
+function toggleMyQuizzesHeader() {
+  quizzesHeader = document.querySelector('.myQuizzesHeader');
+
+  if(quizzesHeader.classList.contains('hidden')) {
+    console.log('Exibindo quizzesHeader');
+  } else {
+    console.log('Escondendo quizzesHeader');
+  }
+  quizzesHeader.classList.toggle('hidden');
+}
+
+
+function toggleScreen1() {
+
+  screen1 = document.querySelector('.myQuizz');
+
+  if(screen1.classList.contains('hidden')) {
+    console.log('Exibindo Screen1');
+  } else {
+    console.log('Escondendo Screen1');
+  }
+  document.querySelector('.myQuizz').classList.toggle('hidden');
+  document.querySelector('.allQuizzes').classList.toggle('hidden');
+}
+
+/* Função para exibir e esconder a div da Tela 2 */
+function toggleScreen2() {
+
+  screen2 = document.querySelector('.screen2');
+
+  if(screen2.classList.contains('hidden')) {
+    console.log('Exibindo Screen2');
+  } else {
+    console.log('Escondendo Screen2');
+  }  
+  screen2.classList.toggle('hidden');
+}
+
+/* Função para exibir e esconder a div da Tela 2 */
+function toggleScreen3() {
+  screen3 = document.querySelector('.quizzInformation');
+
+  if(screen3.classList.contains('hidden')) {
+    console.log('Exibindo Screen3');
+  } else {
+    console.log('Escondendo Screen3');
+  }
+  screen3.classList.toggle('hidden');
+}
+
+//********************************FIM FUNÇÕES PARA EXIBIÇÃO DE TELAS********************************
+
+
+//********************************INICIO TELA 1********************************
+
+/*Adiciona a lógica de click ao botão create quizz, saindo da tela 1 e indo para a 3*/
 document.querySelector('.createQuizz').addEventListener('click', () => {
+  toggleScreen1();
+  toggleLoader();
+  setTimeout(() => {
+    toggleLoader();
+    toggleScreen3();
+  },500);
+})
+
+/*Adiciona a lógica de click ao botão create quizz, saindo da tela 1 e indo para a 3*/
+document.querySelector('.myQuizzesHeader ion-icon').addEventListener('click', () => {
   toggleScreen1();
   toggleLoader();
   setTimeout(() => {
@@ -20,15 +117,14 @@ function getQuizzes() {
     axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes')
         .then((response) => {
             renderAllQuizzes(response);
-            toggleLoader(); toggleScreen1();
+            renderMyQuizzes();
         })
         .catch((error) => {
             console.log(error);
-        })
+    });
 }
 
-// Função adiciona todos os quizzes ao site + numberID quando clicado //
-
+// Função que adiciona todos os quizzes ao site + numberID quando clicado //
 function renderAllQuizzes(response) {
     const allQuizzescontainer = document.querySelector(".allQuizzesBox");
     allQuizzescontainer.innerHTML = '';
@@ -46,16 +142,28 @@ function renderAllQuizzes(response) {
         
         allQuizzescontainer.appendChild(qbox);
     }
-    addLogicSelectionToQuizzes();
+
+  addLogicSelectionToAllQuizzes();
 }
 
-function addLogicSelectionToQuizzes() {
-    document.querySelectorAll('.qbox').forEach((qbox) => {
+/*Adiciona a lógica de click a todos os quizzes adicionados a tela 1, permitindo ir a tela 2*/
+function addLogicSelectionToMyQuizzes() {
+    document.querySelectorAll('.myQuizzes .qbox').forEach((qbox) => {
         qbox.addEventListener('click', () => {
             toggleScreen1();
             getSelectedQuizz((qbox.id));
         });
     });    
+}
+
+/*Adiciona a lógica de click a todos os quizzes adicionados a tela 1, permitindo ir a tela 2*/
+function addLogicSelectionToAllQuizzes() {
+  document.querySelectorAll('.allQuizzes .qbox').forEach((qbox) => {
+      qbox.addEventListener('click', () => {
+          toggleScreen1();
+          getSelectedQuizz((qbox.id));
+      });
+  });    
 }
 
 /* Função utilizada para pegar um quizz específico da API */
@@ -69,32 +177,104 @@ function getSelectedQuizz(quizzId) {
         })
         .catch((error) => {
             console.log(error);
-        })
+    })
 }  
 
-/* Função para exibir e esconder a div do Loader */
-function toggleLoader() {
-    document.querySelector('.screenLoader').classList.toggle('hidden');
+function renderMyQuizzes() {
+  const emptyText = document.querySelector(".grayText");
+  const createQuizzButton = document.querySelector('.createQuizz');
+  const myQuizzesHeader = document.querySelector(".myQuizzesHeader");
+  const myQuizzesSection = document.querySelector(".myQuizzes");
+  const myQuizzesIdsArray = extractIdsArray();
+  let isLastId = false;
+
+  if(myQuizzesIdsArray === null || myQuizzesIdsArray === undefined) {
+    toggleLoader(); 
+    toggleScreen1();  
+    return;
+  }
+
+  myQuizzesSection.innerHTML = '';
+
+  // Ajusta a tela de meus quizzes
+  emptyText.classList.add('hidden');
+  myQuizzesHeader.classList.remove('hidden'); 
+  createQuizzButton.classList.add('hidden')
+  
+
+  for(let i in myQuizzesIdsArray) {
+
+    axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${myQuizzesIdsArray[i]}`)
+      .then((response) => {
+        const qbox = document.createElement("div");
+
+        qbox.setAttribute('id', `${response.data.id}`);
+        qbox.classList.add("qbox");
+    
+        qbox.innerHTML += `
+        <img src= ${response.data.image}>
+        <p>${response.data.title}</p>
+        `;
+        
+        myQuizzesSection.appendChild(qbox);  
+
+        if(i == myQuizzesIdsArray.length - 1) {
+          setTimeout(() => {
+            toggleLoader();
+            addLogicSelectionToMyQuizzes();
+            toggleScreen1();
+          },500)
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
 }
 
-function toggleScreen1() {
-    document.querySelector('.myQuizz').classList.toggle('hidden');
-    document.querySelector('.allQuizzes').classList.toggle('hidden');
+function extractIdsArray() {
+
+  const idsArray = localStorage.getItem('ids');
+
+  // caso usuario nao tenha nenhum quizz a função dá um return, evitando erros
+  if(idsArray === null || idsArray === undefined) {
+    return idsArray;
+  }
+
+  let id_solo = [];
+  let ids = [];
+  let i = 0;
+
+  while(idsArray[i] !== undefined) {
+    i++; 
+  }
+  i--;
+
+  while(idsArray[i] !== undefined) {
+    id_solo.push(idsArray[i]);
+    i--;
+    if(idsArray[i] === ',' || idsArray[i] === undefined) {
+      ids.push(id_solo.toString().replaceAll(",",""));
+      id_solo = [];
+    }
+  }
+
+  ids.forEach((id,index) => {
+    const invertedId = id;
+
+    id = (Array.from(invertedId)).reverse().toString().replaceAll(",","")
+    ids[index] = id;
+
+  })
+
+  return ids;
 }
 
-/* Função para exibir e esconder a div da Tela 2 */
-function toggleScreen2() {
-    document.querySelector('.screen2').classList.toggle('hidden');
-}
-
-/* Função para exibir e esconder a div da Tela 2 */
-function toggleScreen3() {
-  document.querySelector('.quizzInformation').classList.toggle('hidden');
-}
+//********************************FIM TELA 1********************************
 
 
-/* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
 
+//********************************INICIO TELA 2********************************
 
 /*Adiciona funcionabilidade ao botão de restart quizz */
 document.querySelector('.restartQuizz').addEventListener('click', () => {
@@ -160,7 +340,6 @@ function forgetSelectedQuizz() {
 
 /* Função utilizada para montar o quizz específico pego da API */
 function assembleSelectedQuizzPage(quizz) {
-
     selectedQuizz = quizz;
     changeQuizzHeader(); // Monta o cabeçalho do quizz
     changeQuizzQuestions(); // Monta todas as perguntas do quizz
@@ -168,7 +347,6 @@ function assembleSelectedQuizzPage(quizz) {
 
 function changeQuizzHeader() {
     const quizzHeader = document.querySelector('.quizzHeader');
-
     quizzHeader.querySelector('img').src = selectedQuizz.image;
     quizzHeader.querySelector('h1').innerHTML = selectedQuizz.title;
 }
@@ -441,20 +619,29 @@ function scrollToNextQuestion(quizzAnswersDiv) {
         nextQuestionToScroll.scrollIntoView({behavior: "smooth", block: "center"});
     },1000);
 }
-/* FIM JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
+//********************************FIM TELA 2********************************
 
-/* JAVASCRIPT - CADASTRO DE QUIZZ - GPS*/
-let quizzTitle = "";
-let quizzImage = "";
-let quizzNumberQuestions = 0;
-let quizzNumberLevels = 0;
-const containerInformations = document.querySelector(".quizzInformation");
-const containerQuestions = document.querySelector(".quizzQuestionsForm");
-const containerLevels = document.querySelector(".quizzLevels");
-const containerQuizzSucces = document.querySelector(".quizzSuccess");
-let completeQuizz = { title: "", image: "", questions: [], levels: [] };
-let userQuizz = [];
-let idSuccess = "";
+
+//********************************INICIO TELA 3********************************
+
+/*Esta função realiza a validação da string digitada pelo usuário para um cor, para retornar true
+é necessário que a string inserida seja iniciada com # e seguida por 16 digitos hexadecimais*/
+function validateColor(code) {
+  const RegExp = /(^#[0-9A-F]{6}$)/i;
+  if (RegExp.test(code) == true) return true;
+  else return false;
+}
+
+/*Esta função realiza a validação da string digitada pelo usuário para uma URL, para retornar true
+é necessário que um novo objeto da classe URl seja instanciado com sucesso*/
+function validateUrl(str) {
+  try {
+    new URL(str);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
 
 /* Esta função resgata as informações básicas inseridas pelo usuário e realiza a validação delas,
 caso tudo esteja correto, a função que insere os campos de perguntas é chamada, caso contrário,
@@ -704,95 +891,67 @@ function saveLevels() {
 /*Esta funnção realiza o post do quizz por meio da API. Quando a operação for confirmada, a função que 
 realiza o salvamente do id do quizz criado é chamada, enquanto isso, um loader fica na tela*/
 function sendQuizz() {
+
+  containerLevels.classList.add("hidden");
+  toggleLoader();
+
   const promise = axios.post(
     "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes",
     completeQuizz
-  );
-  containerLevels.classList.add("hidden");
-  toggleLoader();
-  promise.then(saveId, promise);
-}
-
-/*Esta função recupera algumas das informações passadas pelo servidor no momento do post do quizz,
-entre elas o id, que é salvo em um array no local storage e pode ser acessado mais tarde para
-verificar se o usuário possui algum quizz criado*/
-function saveId(promise) {
-  const listSerie = localStorage.getItem("ids");
-  const list = JSON.parse(listSerie);
-  for (let i = 0; i < list.length; i++) {
-    userQuizz.push(list[i]);
-  }
-  idSuccess = promise.data.id;
-  let imageSuccess = promise.data.image;
-  let titleSuccess = promise.data.title;
-  userQuizz.push(idSuccess);
-  const userQuizzJSON = JSON.stringify(userQuizz);
-  localStorage.setItem("ids", userQuizzJSON);
-  successQuizz(imageSuccess, titleSuccess);
+  )
+  .then(() => {
+    axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes')
+        .then((response) => {
+            let ids = localStorage.getItem('ids');
+            ids = ids ? ids.split(',') : [];
+            ids.push(response.data[0].id);
+            localStorage.setItem('ids', ids.toString());
+            successQuizz();
+        })
+        .catch((error) => {
+            console.log(error);            
+    })
+  })
 }
 
 /*Esta função mostra a tela de sucesso do quizz, com a imagem do quiz que acabou de ser criado
 e um botão para acessá-lo ou voltar para home*/
-function successQuizz(image, title) {
-  containerLevels.classList.add("hidden");
-  containerQuizzSucces.classList.remove("hidden");
-  containerQuizzSucces.innerHTML += `
-    <div class="finalQuizz">
-        <img class="imgfinal" src="${image}">
-        <div class="titlefinal">${title}</div>
-    </div>
-    <button class="buttonForm buttonFinal" onclick="accessQuizz()">Acessar Quizz</button>
-    <p class="returnh" onclick="returnHome()">Voltar pra home</p>
-    `;
+function successQuizz() {
+
+  const id = extractIdsArray()[0].replaceAll(",","");
+
+  axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`)
+    .then((response) => {
+      containerQuizzSucces.innerHTML += `
+      <div class="finalQuizz">
+          <img class="imgfinal" src="${response.data.image}">
+          <div class="titlefinal">${response.data.title}</div>
+      </div>
+      <button class="buttonForm buttonFinal" onclick="accessQuizz(${id})">Acessar Quizz</button>
+      <p class="returnh" onclick="returnHome()">Voltar pra home</p>
+      `;
+
+      toggleLoader();
+      containerQuizzSucces.classList.remove("hidden");
+    
+    })
+    .catch((error) => {
+        console.log(error);
+    });
 }
+
 
 /*Esta função faz com que o usuário seja redirecionado para a home*/
 function returnHome() {
+  toggleLoader();
   containerQuizzSucces.classList.add("hidden");
-  toggleScreen1();
+  renderMyQuizzes();
 }
 
 /*Esta função faz com que o quizz que acabou de ser criado seja acessado*/
-function accessQuizz() {
+function accessQuizz(myQuizzSentId) {
   containerQuizzSucces.classList.add("hidden");
-  getSelectedQuizz(idSuccess);
+  getSelectedQuizz(myQuizzSentId);
 }
 
-/*Esta função realiza a validação da string digitada pelo usuário para um cor, para retornar true
-é necessário que a string inserida seja iniciada com # e seguida por 16 digitos hexadecimais*/
-function validateColor(code) {
-  const RegExp = /(^#[0-9A-F]{6}$)/i;
-  if (RegExp.test(code) == true) return true;
-  else return false;
-}
-
-/*Esta função realiza a validação da string digitada pelo usuário para uma URL, para retornar true
-é necessário que um novo objeto da classe URl seja instanciado com sucesso*/
-function validateUrl(str) {
-  try {
-    new URL(str);
-    return true;
-  } catch (err) {
-    return false;
-  }
-}
-
-
-/*protótipo para verificar se um usuário possui quizzes criados*/
-function insereQuizzesDoUsuário(){
-    const idQuizzes = localStorage.getItem("ids");  /*essa linha vai no local storage do usuário e busca
-    pelo identificador "ids" esse identificador foi definido por mim na função saveId, o retorno obtido
-    é um JSON que contem os dados desse identificador*/
-
-    const list = JSON.parse(idQuizzes); /*essa linha converte o JSON em um array, nesse array, cada posição
-    corresponde exatamente a um id de quizz criado pelo usuário*/
-    
-    if(list.length>0){ /*se o tamanho da lista convertida é maior que 0 então há pelo menos um quizz 
-    criado pelo usuário, dessa forma, será necessário percorrer este array e renderizar cada um desses
-    id*/
-        renderizaQuizzes(list);
-    }else{
-        /*se o tamanho do array é igual a 0 então o usuário não possui nenhum quizz criado por ele e não 
-        é necessário renderizar*/
-    }     
-}
+//********************************FIM TELA 3********************************

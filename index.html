@@ -15,13 +15,18 @@
     <main>
 
         <!-- Start of screen 1 -->
-        <section class="myQuizz ">
-            <div class="myQuizzEmpty">
-                <div>
-                    <p class="grayText">Você não criou nenhum <br> quizz ainda :(</p>
-                    <!-- <p class="bigText">Seus Quizzes</p> -->
-                    <ion-icon name="add-circle-sharp" class="hidden"></ion-icon>
+        <section class="myQuizz">
+            <div class="myQuizzEmpty"> <!--Mudar esses nomes dps, CUIDADO PRA NAO QUEBRAR O JS E O CSS-->
+                <div class="headerPositionAux">
+                    <div class="myQuizzesHeader hidden">
+                        <p class="">Seus Quizzes</p>
+                        <ion-icon name="add-circle-sharp" class=""></ion-icon>
+                    </div>
                 </div>
+                <p class="grayText">Você não criou nenhum <br> quizz ainda :(</p>
+                <div class="myQuizzes">
+                </div>
+
                 <div>
                     <button class="createQuizz">Criar Quizz</button>
                 </div>
@@ -29,13 +34,7 @@
         </section>
         <section class="allQuizzes">
             <div class="bigText">Todos os Quizzes</div>
-            <div class="allQuizzesBox">
-                <!-- example of content to create in JS -->
-                <!-- <div class="qbox">
-                    <img src= https://source.unsplash.com/featured/300x202>
-                    <p></p> 
-                </div> -->
-            </div>
+            <div class="allQuizzesBox"></div>
         </section>
         <!-- End of Screen 1 -->
 
@@ -44,6 +43,7 @@
             <img src="images/loader.png">
             <p>Carregando</p>
         </div>
+        <!--End of Screen Loader-->
 
         <!--Begin of Screen 2 *******-->
         <div class="screen2 hidden">
@@ -68,7 +68,6 @@
         </div>
         <!--End of Screen 2 *******-->
         
-        
         <!--FORMULÁRIOS - CADASTRO DE QUIZZ-->
         <section class="sectionForms quizzInformation hidden">
             <h1 class="titleForm">Comece pelo começo</h1>
@@ -82,19 +81,20 @@
             </div>
             <button class="buttonForm" onclick="saveInformations()">Prosseguir pra criar perguntas</button>
         </section>
+
         <section class="hidden sectionForms quizzQuestionsForm">
             <h1 class="titleForm">Crie suas perguntas</h1>
         </section>
+
         <section class="hidden sectionForms quizzLevels">
             <h1 class="titleForm">Agora, decida os níveis</h1>
         </section>
+
         <section class="hidden sectionForms quizzSuccess">
             <h1 class="titleForm">Seu quizz está pronto!</h1>
         </section>
     </main>
-    <footer>
-
-    </footer>
+    <!--End of FORMULÁRIOS - CADASTRO DE QUIZZ-->
 
     <!--axios library-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
