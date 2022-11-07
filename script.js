@@ -3,7 +3,16 @@ let questionsAnswered = []; let correctAnswers = [];
 let numberOfQuestionsInQuizz; let selectedQuizz; let resultsLevel;
 
 // Inicio do programa
-// getQuizzes();
+getQuizzes();
+
+document.querySelector('.createQuizz').addEventListener('click', () => {
+  toggleScreen1();
+  toggleLoader();
+  setTimeout(() => {
+    toggleLoader();
+    toggleScreen3();
+  },500);
+})
 
 /* Função utilizada para pegar todos os quizzes da API */
 function getQuizzes() {
@@ -73,31 +82,42 @@ function toggleScreen1() {
     document.querySelector('.allQuizzes').classList.toggle('hidden');
 }
 
-/* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
-
 /* Função para exibir e esconder a div da Tela 2 */
 function toggleScreen2() {
     document.querySelector('.screen2').classList.toggle('hidden');
 }
 
+/* Função para exibir e esconder a div da Tela 2 */
+function toggleScreen3() {
+  document.querySelector('.quizzInformation').classList.toggle('hidden');
+}
+
+
+/* INICIO JAVASCRIPT DESENVOLVIDO PARA A TELA 2 - ÉRICO */
+
+
 /*Adiciona funcionabilidade ao botão de restart quizz */
 document.querySelector('.restartQuizz').addEventListener('click', () => {
     lightCleanQuizz();
+    toggleScreen2();
+    toggleLoader();
     restartQuizz();
 });
 
 /*Adiciona funcionabilidade ao botão de return home */
 document.querySelector('.returnHome').addEventListener('click', () => {
     fullCleanQuizz();
-    toggleScreen1();
+    toggleScreen2();
+    setTimeout(() => {
+      toggleLoader();
+      toggleScreen1();
+    }, 1000);
 });
 
 // função utilizada previamente ao reinicar do quizz, o quizzHeader nao é limpo
 function lightCleanQuizz() {
     const quizzQuestions = document.querySelector('.quizzQuestions');
     const quizzResults = document.querySelector('.quizzResults');
-
-    toggleScreen2(); toggleLoader();
     
     quizzQuestions.innerHTML = ''; quizzResults.innerHTML = '';  
     quizzResults.classList.add('hidden');
@@ -108,7 +128,7 @@ function fullCleanQuizz() {
     cleanScreen2Variables();
     lightCleanQuizz();
     cleanQuizzHeader();
-    setTimeout(toggleLoader, 1000);
+    toggleLoader();
 }
 
 /* função de restart do quizz, limpa as variáveis usadas na 
@@ -142,7 +162,6 @@ function forgetSelectedQuizz() {
 function assembleSelectedQuizzPage(quizz) {
 
     selectedQuizz = quizz;
-    document.querySelector('.screenLoader').classList.toggle('hidden');
     changeQuizzHeader(); // Monta o cabeçalho do quizz
     changeQuizzQuestions(); // Monta todas as perguntas do quizz
 }
